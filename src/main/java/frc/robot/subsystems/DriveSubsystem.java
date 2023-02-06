@@ -13,6 +13,7 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  * Add your docs here.
@@ -38,10 +39,10 @@ public class DriveSubsystem extends SubsystemBase {
     // }
 
     // Drive the left and right sides of the talons
-    Left1.set(ControlMode.PercentOutput,-left);
-    Left2.set(ControlMode.PercentOutput,-left);
-    Right1.set(ControlMode.PercentOutput,right);
-    Right2.set(ControlMode.PercentOutput,right);
+    Left1.set(ControlMode.PercentOutput,left * 0.75);
+    Left2.set(ControlMode.PercentOutput,left * 0.75);
+    Right1.set(ControlMode.PercentOutput,-right);
+    Right2.set(ControlMode.PercentOutput,-right);
 
     // Left1.configPeakOutputForward(1);
     // Left1.configPeakOutputReverse(-1);
@@ -78,6 +79,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void ArcadeDrive (double speed, double turn) {
     TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
+  }
+
+  public void brake () {
+    Left1.setNeutralMode(NeutralMode.Brake);
+    Left2.setNeutralMode(NeutralMode.Brake);
+    Right1.setNeutralMode(NeutralMode.Brake);
+    Right2.setNeutralMode(NeutralMode.Brake);
   }
 
 }

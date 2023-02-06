@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
 
   public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static DriveCommand DriveCommand = new DriveCommand();
+  public static BrakeCommand BrakeCommand = new BrakeCommand();
 
   // public static SendableChooser<Double> m_Chooser = new SendableChooser<>();
 

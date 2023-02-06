@@ -7,20 +7,45 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.BrakeCommand;
 
 
 /**
  * Add your docs here
  */
 public class OI {
+
     public static XboxController Driver = new XboxController(0);
 
+    // driver buttons
+    public JoystickButton aButton;
+    public JoystickButton bButton;
+    public JoystickButton xButton;
+    public JoystickButton yButton;
+
+    // Driver bumpers
+    public JoystickButton leftBumper;
+    public JoystickButton rightBumper;
+
+    
+
+    
     // public static double getSpeed () {
     //     return ((Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) * Robot.m_Chooser.getSelected());
     // }
 
+    public OI() {
+        bButton = new JoystickButton(Driver, 2);
+        bButton.onTrue(new BrakeCommand());
+
+
+    }
+
     public static double getSpeed () {
+
 
         // if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {
 
