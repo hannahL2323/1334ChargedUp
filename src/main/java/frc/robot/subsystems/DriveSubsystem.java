@@ -44,34 +44,10 @@ public class DriveSubsystem extends SubsystemBase {
     Right1.set(ControlMode.PercentOutput,-right);
     Right2.set(ControlMode.PercentOutput,-right);
 
-    // Left1.configPeakOutputForward(1);
-    // Left1.configPeakOutputReverse(-1);
-    // Left2.configPeakOutputForward(1);
-    // Left2.configPeakOutputReverse(-1);
-    // Right1.configPeakOutputForward(1);
-    // Right1.configPeakOutputReverse(-1);
-    // Right2.configPeakOutputForward(1);
-    // Right2.configPeakOutputReverse(-1);
-
-
     
-    // Left1.setInverted(true);
-    // Left2.setInverted(true);
-    // Right1.setInverted(false);
-    // Right2.setInverted(false);
-
-
-    // System.out.println("Running Left:" + left + "\tRunning Right:" + right);
   }
 
-  // public void setMotorPercent(double percent) {
-
-  //   Left1.set(ControlMode.PercentOutput, percent);
-  //   Left2.set(ControlMode.PercentOutput, percent);
-  //   Right1.set(ControlMode.PercentOutput, percent);
-  //   Right2.set(ControlMode.PercentOutput, percent);
-
-  // }
+  
 
 
     
@@ -81,11 +57,5 @@ public class DriveSubsystem extends SubsystemBase {
     TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
   }
 
-  public void brake () {
-    Left1.setNeutralMode(NeutralMode.Brake);
-    Left2.setNeutralMode(NeutralMode.Brake);
-    Right1.setNeutralMode(NeutralMode.Brake);
-    Right2.setNeutralMode(NeutralMode.Brake);
-  }
-
+ 
 }
