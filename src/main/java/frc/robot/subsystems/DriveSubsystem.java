@@ -13,7 +13,6 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  * Add your docs here.
@@ -27,16 +26,9 @@ public class DriveSubsystem extends SubsystemBase {
   TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
   TalonSRX Right2 = new TalonSRX(RobotMap.Right2);
 
-  // public void initDefaultCommand() {
-  //   slow = false;
-  // }
+ 
 
   public void TankDrive (double left, double right) {
-
-    // if (slow) {
-    //   left *= 0.80;
-    //   right *= 0.80;
-    // }
 
     // Drive the left and right sides of the talons
     Left1.set(ControlMode.PercentOutput,left * 0.75);
@@ -46,12 +38,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     
   }
-
-  
-
-
-    
-
 
   public void ArcadeDrive (double speed, double turn) {
     TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);

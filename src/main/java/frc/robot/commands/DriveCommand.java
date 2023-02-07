@@ -33,31 +33,6 @@ public class DriveCommand extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   public void execute() {
 
-    // if (OI.getSlow()) {
-    //   Robot.DriveSubsystem.slow = !Robot.DriveSubsystem.slow;
-    // }
-
-    // if (OI.getSpeed() > 0.15) {
-    //   if (fCounter >= OI.getSpeed()) {
-    //     Robot.DriveSubsystem.ArcadeDrive(OI.getSpeed(), OI.getTurn());
-    //   } else {
-    //     Robot.DriveSubsystem.ArcadeDrive(fCounter + 0.01, OI.getTurn());
-    //     fCounter += 0.01;
-    //   }
-    //   bCounter = 0;
-    // } else if (OI.getSpeed() < -0.15) {
-    //   if (bCounter <= OI.getSpeed()) {
-    //     Robot.DriveSubsystem.ArcadeDrive(OI.getSpeed(), OI.getTurn());
-    //   } else {
-    //     Robot.DriveSubsystem.ArcadeDrive(bCounter - 0.01, OI.getTurn());
-    //     bCounter -= 0.01;
-    //   }
-    //   fCounter = 0;
-    // } else {
-    //   Robot.DriveSubsystem.ArcadeDrive(0, OI.getTurn());
-    //   fCounter = 0;
-    //   bCounter = 0;
-    // }
     Robot.DriveSubsystem.ArcadeDrive(OI.getSpeed(), OI.getTurn());
 
   }
