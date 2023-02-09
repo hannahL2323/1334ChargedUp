@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -29,10 +32,11 @@ public class Robot extends TimedRobot {
 
   public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static DriveCommand DriveCommand = new DriveCommand();
+  public static BalanceCommand BalanceCommand = new BalanceCommand();
 
   // public static SendableChooser<Double> m_Chooser = new SendableChooser<>();
 
-  public static UsbCamera Camera;
+  // public static UsbCamera Camera;
 
 
   /**
@@ -42,6 +46,14 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
     CameraServer.startAutomaticCapture();
+
+    try {
+      
+      AHRS ahrs = new AHRS(SPI.Port.kMXP);
+  } catch (RuntimeException ex) {
+      DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+  }
+
   }
 
  
@@ -54,6 +66,7 @@ public class Robot extends TimedRobot {
    * LiveWindow and SmartDashboard integrated updating.
    */
   public void robotPeriodic() {
+
   }
 
   /**
@@ -82,6 +95,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     DriveCommand.schedule();
+    // BalanceCommand.schedule();
   }
 
   /**
