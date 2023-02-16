@@ -45,14 +45,8 @@ public class Robot extends TimedRobot {
    */
   public void robotInit() {
     // Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
-    CameraServer.startAutomaticCapture();
+    // CameraServer.startAutomaticCapture();
 
-    try {
-      
-      AHRS ahrs = new AHRS(SPI.Port.kMXP);
-  } catch (RuntimeException ex) {
-      DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-  }
 
   }
 
@@ -95,7 +89,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     DriveCommand.schedule();
-    // BalanceCommand.schedule();
   }
 
   /**

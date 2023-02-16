@@ -55,7 +55,6 @@ public class OI {
             return (Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis());
         
         }
-            //maybe-0.5hereONLYiftested
         
 
     public static double getTurn () {

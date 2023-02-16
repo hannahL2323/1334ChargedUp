@@ -24,15 +24,13 @@ import edu.wpi.first.wpilibj.SPI;
  */
 public class DriveSubsystem extends SubsystemBase {
 
+
   AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
-  boolean autoBalanceXMode;
-  boolean autoBalanceYMode;
-  double xSpeed;
-  double ySpeed;
-  double yawAngleDegrees = ahrs.getAngle();
-  double pitchAngleDegrees = ahrs.getPitch();
-  double rollAngleDegrees = ahrs.getRoll();  
+  // boolean autoBalanceXMode;
+  // boolean autoBalanceYMode;
+  // double xSpeed;
+  // double ySpeed;
   
   TalonSRX Left1 = new TalonSRX(RobotMap.Left1);
   TalonSRX Left2 = new TalonSRX(RobotMap.Left2);
@@ -43,12 +41,30 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void TankDrive (double left, double right) {
 
+    double yaw = ahrs.getAngle();
+    double pitch = ahrs.getPitch();
+    double roll = ahrs.getRoll(); 
+
+
+    double threshold = 1.0; // adjust as needed
+    if (Math.abs(roll) > threshold) {
+        // If the pitch angle exceeds the threshold, reverse the direction of the motors
+        double rollRadian = roll * (Math.PI / 180.0);
+        left = Math.sin(rollRadian) * -0.5;
+        right = Math.sin(rollRadian) * -0.5;
+        
+
+        // left *= -0.5;
+        // right *= -0.5;
+    }
+
     // Drive the left and right sides of the talons
-    Left1.set(ControlMode.PercentOutput,left * 0.75);
-    Left2.set(ControlMode.PercentOutput,left * 0.75);
+    Left1.set(ControlMode.PercentOutput,left);
+    Left2.set(ControlMode.PercentOutput,left);
     Right1.set(ControlMode.PercentOutput,-right);
     Right2.set(ControlMode.PercentOutput,-right);
 
+    System.out.println("pitch: " + pitch + "  roll: " + roll + "  yaw: " + yaw);
     
   }
 
@@ -56,50 +72,54 @@ public class DriveSubsystem extends SubsystemBase {
     TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
   }
 
-  static final double kOffBalanceAngleThresholdDegrees = 10;
-  static final double kOonBalanceAngleThresholdDegrees = 5;
+
+
+  // static final double kOffBalanceAngleThresholdDegrees = 10;
+  // static final double kOonBalanceAngleThresholdDegrees = 5;
 
     
-  public void AutoBalance() {
+  // public void AutoBalance() {
+
+  //   ahrs.reset();
      
-    if (!autoBalanceXMode && (Math.abs(yawAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
-        autoBalanceXMode = true;
-    } else if (autoBalanceXMode && (Math.abs(yawAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
-        autoBalanceXMode = false;
-    }
-    // if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
-    //     autoBalanceYMode = true;
-    // } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
-    //     autoBalanceYMode = false;
-    // }
+  //   if (!autoBalanceXMode && (Math.abs(yawAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+  //       autoBalanceXMode = true;
+  //   } else if (autoBalanceXMode && (Math.abs(yawAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+  //       autoBalanceXMode = false;
+  //   }
+  //   // if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+  //   //     autoBalanceYMode = true;
+  //   // } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+  //   //     autoBalanceYMode = false;
+  //   // }
 
 
 
-    // Control drive system automatically,
-    // driving in reverse direction of pitch/roll angle,
-    // with a magnitude based upon the angle
+  //   // Control drive system automatically,
+  //   // driving in reverse direction of pitch/roll angle,
+  //   // with a magnitude based upon the angle
 
-    if (autoBalanceXMode) {
-        double yawAngleRadians = yawAngleDegrees * (Math.PI / 180.0);
-        xSpeed = Math.sin(yawAngleRadians) * -0.5;
-    }
-    // if (autoBalanceYMode) {
-    //     double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
-    //     ySpeed = Math.sin(rollAngleRadians) * -1;
-    // }
+  //   if (autoBalanceXMode) {
+  //       double yawAngleRadians = yawAngleDegrees * (Math.PI / 180.0);
+  //       xSpeed = Math.sin(yawAngleRadians) * -0.5;
+  //   }
+  //   // if (autoBalanceYMode) {
+  //   //     double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
+  //   //     ySpeed = Math.sin(rollAngleRadians) * -1;
+  //   // }
 
-    try {
-      Left1.set(ControlMode.PercentOutput, xSpeed);
-      Left2.set(ControlMode.PercentOutput, xSpeed);
-      Right1.set(ControlMode.PercentOutput, xSpeed);
-      Right2.set(ControlMode.PercentOutput, xSpeed);
-    } catch (RuntimeException ex) {
-        String err_string = "Drive system error:  " + ex.getMessage();
-        DriverStation.reportError(err_string, true);
-    }
+  //   try {
+  //     Left1.set(ControlMode.PercentOutput, xSpeed);
+  //     Left2.set(ControlMode.PercentOutput, xSpeed);
+  //     Right1.set(ControlMode.PercentOutput, xSpeed);
+  //     Right2.set(ControlMode.PercentOutput, xSpeed);
+  //   } catch (RuntimeException ex) {
+  //       String err_string = "Drive system error:  " + ex.getMessage();
+  //       DriverStation.reportError(err_string, true);
+  //   }
 
-    System.out.println("xSpeed: " + xSpeed + " yaw: " + yawAngleDegrees);
-  }
+  //   System.out.println("xSpeed: " + xSpeed + " yaw: " + yawAngleDegrees);
+  // }
 
  
 }
