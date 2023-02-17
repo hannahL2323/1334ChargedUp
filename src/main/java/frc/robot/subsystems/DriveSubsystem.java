@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.controller.PIDController;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -36,7 +37,6 @@ public class DriveSubsystem extends SubsystemBase {
   TalonSRX Left2 = new TalonSRX(RobotMap.Left2);
   TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
   TalonSRX Right2 = new TalonSRX(RobotMap.Right2);
-
  
 
   public void TankDrive (double left, double right) {
@@ -46,21 +46,25 @@ public class DriveSubsystem extends SubsystemBase {
     double roll = ahrs.getRoll(); 
 
 
-    double threshold = 1.0; // adjust as needed
+    double threshold = 10.0; // adjust as needed
+    
     if (Math.abs(roll) > threshold) {
+      while (threshold != 0) {
+        threshold -= 1.0;
+
         // If the pitch angle exceeds the threshold, reverse the direction of the motors
         double rollRadian = roll * (Math.PI / 180.0);
-        left = Math.sin(rollRadian) * -0.5;
-        right = Math.sin(rollRadian) * -0.5;
-        
+        left = Math.sin(rollRadian) * -1;
+        right = Math.sin(rollRadian) * -1;
 
-        // left *= -0.5;
-        // right *= -0.5;
+
+      }
+               
     }
 
     // Drive the left and right sides of the talons
-    Left1.set(ControlMode.PercentOutput,left);
-    Left2.set(ControlMode.PercentOutput,left);
+    Left1.set(ControlMode.PercentOutput, left);
+    Left2.set(ControlMode.PercentOutput, left);
     Right1.set(ControlMode.PercentOutput,-right);
     Right2.set(ControlMode.PercentOutput,-right);
 
@@ -71,7 +75,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void ArcadeDrive (double speed, double turn) {
     TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
   }
-
 
 
   // static final double kOffBalanceAngleThresholdDegrees = 10;
