@@ -24,8 +24,8 @@ public class OI {
     public static XboxController Driver = new XboxController(0);
 
     // driver buttons
-    public JoystickButton aButton;
-    public JoystickButton bButton;
+    public JoystickButton aButton = new JoystickButton(Driver, 1);
+    public JoystickButton bButton = new JoystickButton(Driver, 2);
     public JoystickButton xButton;
     public JoystickButton yButton;
 
@@ -41,8 +41,8 @@ public class OI {
     // }
 
     public OI() {
-        bButton = new JoystickButton(Driver, 2);
-        bButton.whileTrue(new BalanceCommand());
+
+        aButton.whileTrue(new ArmCommand());
 
 
     }

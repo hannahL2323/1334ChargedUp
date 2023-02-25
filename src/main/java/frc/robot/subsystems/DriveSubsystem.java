@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -48,11 +49,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     double threshold = 10.0; // adjust as needed
     
-    if (Math.abs(roll) > threshold) {
-      while (threshold != 0) {
-        threshold -= 1.0;
+    while (threshold != 0) {
 
-        // If the pitch angle exceeds the threshold, reverse the direction of the motors
+      if (Math.abs(roll) > threshold) {
+      
+        threshold -= 5.0;
+
+        // If the roll angle exceeds the threshold, reverse the direction of the motors
         double rollRadian = roll * (Math.PI / 180.0);
         left = Math.sin(rollRadian) * -1;
         right = Math.sin(rollRadian) * -1;
@@ -67,6 +70,10 @@ public class DriveSubsystem extends SubsystemBase {
     Left2.set(ControlMode.PercentOutput, left);
     Right1.set(ControlMode.PercentOutput,-right);
     Right2.set(ControlMode.PercentOutput,-right);
+
+    SmartDashboard.putNumber("pitch", pitch);
+    SmartDashboard.putNumber("roll", roll);
+    SmartDashboard.putNumber("yaw", yaw);
 
     System.out.println("pitch: " + pitch + "  roll: " + roll + "  yaw: " + yaw);
     
