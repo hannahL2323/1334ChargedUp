@@ -20,12 +20,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * Add your docs here
  */
 public class OI {
+     
 
-    public static XboxController Driver = new XboxController(0);
+    public static XboxController Driver;
 
     // driver buttons
-    public JoystickButton aButton = new JoystickButton(Driver, 1);
-    public JoystickButton bButton = new JoystickButton(Driver, 2);
+    public JoystickButton aButton;
+    public JoystickButton bButton;
     public JoystickButton xButton;
     public JoystickButton yButton;
 
@@ -33,18 +34,23 @@ public class OI {
     public JoystickButton leftBumper;
     public JoystickButton rightBumper;
 
-    
-
-    
-    // public static double getSpeed () {
-    //     return ((Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) * Robot.m_Chooser.getSelected());
-    // }
 
     public OI() {
 
+        Driver = new XboxController(0);
+        aButton = new JoystickButton(Driver, 1);
+        bButton = new JoystickButton(Driver, 2);
+        xButton = new JoystickButton(Driver, 3);
+        yButton = new JoystickButton(Driver, 4);
+
+        
         aButton.whileTrue(new ArmCommand());
 
 
+    }
+
+    public static boolean getAutoBalance() {
+        return Driver.getXButton();
     }
 
     public static double getSpeed () {

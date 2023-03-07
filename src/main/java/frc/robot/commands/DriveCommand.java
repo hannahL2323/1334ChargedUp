@@ -14,12 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveCommand extends CommandBase {
 
-  int cycle = 0;
-
-  double prevSpeed = 0;
-  double fCounter = 0;
-  double bCounter = 0;
-
   public DriveCommand() {
     addRequirements(Robot.DriveSubsystem);
     // Use requires() here to declare subsystem dependencies

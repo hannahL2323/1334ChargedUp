@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType; 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -17,43 +19,46 @@ public class ArmSubsystem extends SubsystemBase {
   CANSparkMax armMotor;
   DigitalInput limitSwitch;
   RelativeEncoder armEncoder;
-  boolean limitReached; 
+  double threshold = 3;
 
   public ArmSubsystem() {
     armMotor = new CANSparkMax(RobotMap.armMotor, MotorType.kBrushless);
     limitSwitch = new DigitalInput(RobotMap.limitSwitch);
     armEncoder = armMotor.getEncoder();
-    limitReached = true; 
+  }
+
+  public boolean encoderLimitReached() {
+    double encoderPosition = armEncoder.getPosition();
+
+    if (encoderPosition >= threshold) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean limitSwitchClosed() {
+    if (limitSwitch.get()) {
+      SmartDashboard.putBoolean("switch closed", true);
+      System.out.println("switch closed");
+      return true;
+      
+    } else {
+      SmartDashboard.putBoolean("switch closed", false);
+      System.out.println("switch opened");
+      return false;
+      
+    }
 
   }
 
-
-  // public void armControl() {
-  //   // double encoderPosition = armEncoder.getPosition();
-  //   // double threshold = 5;
-
-  //   // if (encoderPosition >= threshold) {
-  //   //   armMotor.set(0);
-  //   // } else {
-  //   //   armMotor.set(0.5);
-  //   // }
-
-  //   if (limitSwitch.get()) {
-  //     armMotor.set(0);
-  //     SmartDashboard.putBoolean("switch closed", true);
-  //     System.out.println("switch closed");
-  //   } else {
-  //     armMotor.set(0.5);
-  //     SmartDashboard.putBoolean("switch closed", false);
-  //     System.out.println("switch opened");
-
-  //   }
-  // }
-
-
-  public void runArm() {
-    armMotor.set(0.5);
+  public void runArm(double speed) {
+    armMotor.setIdleMode(IdleMode.kCoast);
+    armMotor.set(speed);
+    System.out.println("arm command is being triggered");
   }
+
+  
 
 
 }
