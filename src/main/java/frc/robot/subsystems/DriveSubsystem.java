@@ -37,15 +37,15 @@ public class DriveSubsystem extends SubsystemBase {
   // TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
   // TalonSRX Right2 = new TalonSRX(RobotMap.Right2);
 
-  Talon Left1 = new Talon(RobotMap.Left1);
-  Talon Left2 = new Talon(RobotMap.Left2);
-  Talon Right1 = new Talon(RobotMap.Right1);
-  Talon Right2 = new Talon(RobotMap.Right2); 
+  // Talon Left1 = new Talon(RobotMap.Left1);
+  // Talon Left2 = new Talon(RobotMap.Left2);
+  // Talon Right1 = new Talon(RobotMap.Right1);
+  // Talon Right2 = new Talon(RobotMap.Right2); 
   
-  // CANSparkMax Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
-  // CANSparkMax Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);
-  // CANSparkMax Right1 = new CANSparkMax(RobotMap.Right1, MotorType.kBrushless);
-  // CANSparkMax Right2 = new CANSparkMax(RobotMap.Right2, MotorType.kBrushless);
+  CANSparkMax Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
+  CANSparkMax Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);
+  CANSparkMax Right1 = new CANSparkMax(RobotMap.Right1, MotorType.kBrushless);
+  CANSparkMax Right2 = new CANSparkMax(RobotMap.Right2, MotorType.kBrushless);
  
 
   public void TankDrive (double left, double right) {
@@ -57,6 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     while (balanceEnabled()) {
       if (Math.abs(pitch) > threshold) {
+        System.out.println("autobalance enabled");
         // If the pitch angle exceeds the threshold, reverse the direction of the motors
         double pitchRadian = pitch * (Math.PI / 180.0);
         left = Math.sin(pitchRadian) * -1;

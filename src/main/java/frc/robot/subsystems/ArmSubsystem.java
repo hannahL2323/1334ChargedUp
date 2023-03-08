@@ -58,6 +58,18 @@ public class ArmSubsystem extends SubsystemBase {
     System.out.println("arm command is being triggered");
   }
 
+  // public void limitSwitchArm() {
+  //   if (limitSwitch.get()) {
+  //     SmartDashboard.putBoolean("switch closed", true);
+  //     armMotor.set(0.5);
+      
+  //   } else {
+  //     SmartDashboard.putBoolean("switch closed", false);
+  //     armMotor.set(0.0);
+      
+  //   }
+  // }
+
   
 
 

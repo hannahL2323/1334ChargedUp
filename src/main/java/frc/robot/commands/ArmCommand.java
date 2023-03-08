@@ -34,13 +34,14 @@ public class ArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-  //   if (Robot.ArmSubsystem.limitSwitchClosed()) {
-  //     return true;
-  //   }
-  //   else {
-  //     return false;
-  //   }
-  // }
-  return false;
+    // if (Robot.ArmSubsystem.limitSwitchClosed()) {
+    //   return true;
+    // }
+    // else {
+    //   return false;
+    // }
+    return false;
+
   }
+  
 }
