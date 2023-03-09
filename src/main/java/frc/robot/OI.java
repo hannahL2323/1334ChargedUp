@@ -46,7 +46,7 @@ public class OI {
         return Driver.getXButton();
     }
 
-    public static double getSpeed () {
+    public static double getSpeed() {
 
 
         // if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {

@@ -28,13 +28,17 @@ import edu.wpi.first.wpilibj.SPI;
  */
 public class Robot extends TimedRobot {
 
-  // public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
+  //initializing subsystems
+
+  public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static ArmSubsystem ArmSubsystem = new ArmSubsystem();
 
-  // public static DriveCommand DriveCommand = new DriveCommand();
-  public static ArmCommand ArmCommand = new ArmCommand();
-
   public static OI OI = new OI();
+
+  // initializing commands
+
+  public static DriveCommand DriveCommand = new DriveCommand();
+  public static ArmCommand ArmCommand = new ArmCommand();
 
 
   // public static SendableChooser<Double> m_Chooser = new SendableChooser<>();
@@ -91,7 +95,7 @@ public class Robot extends TimedRobot {
    */
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    // DriveCommand.schedule();
+    DriveCommand.schedule();
   }
 
   /**

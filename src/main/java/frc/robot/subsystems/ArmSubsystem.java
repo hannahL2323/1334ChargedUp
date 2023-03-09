@@ -16,19 +16,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends SubsystemBase {
 
-  CANSparkMax armMotor;
+  CANSparkMax armMotorOne;
+  CANSparkMax armMotorTwo;
+
   DigitalInput limitSwitch;
   RelativeEncoder armEncoder;
-  double threshold = 3;
+  double threshold = 1;
+  boolean toggle = true;
 
   public ArmSubsystem() {
-    armMotor = new CANSparkMax(RobotMap.armMotor, MotorType.kBrushless);
+    armMotorOne = new CANSparkMax(RobotMap.armMotorOne, MotorType.kBrushless);
+    armMotorTwo = new CANSparkMax(RobotMap.armMotorTwo, MotorType.kBrushless);
     limitSwitch = new DigitalInput(RobotMap.limitSwitch);
-    armEncoder = armMotor.getEncoder();
+    armEncoder = armMotorOne.getEncoder();
+
+    armMotorTwo.setInverted(true);
+
   }
 
   public boolean encoderLimitReached() {
-    double encoderPosition = armEncoder.getPosition();
+    double encoderPosition = Math.abs(armEncoder.getPosition());
 
     if (encoderPosition >= threshold) {
       return true;
@@ -37,37 +44,39 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public boolean limitSwitchClosed() {
-    if (limitSwitch.get()) {
-      SmartDashboard.putBoolean("switch closed", true);
-      System.out.println("switch closed");
-      return true;
-      
-    } else {
-      SmartDashboard.putBoolean("switch closed", false);
-      System.out.println("switch opened");
-      return false;
-      
-    }
-
-  }
 
   public void runArm(double speed) {
-    armMotor.setIdleMode(IdleMode.kCoast);
-    armMotor.set(speed);
-    System.out.println("arm command is being triggered");
+    armMotorOne.set(speed);
+    armMotorTwo.set(speed);
+    SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
   }
 
-  // public void limitSwitchArm() {
+  public void armReset() {
+    armEncoder.setPosition(0);
+    toggle = !toggle;
+  }
+
+  public boolean toggleForward() {
+    if (toggle) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // public boolean limitSwitchClosed() {
   //   if (limitSwitch.get()) {
   //     SmartDashboard.putBoolean("switch closed", true);
-  //     armMotor.set(0.5);
+  //     System.out.println("switch closed");
+  //     return true;
       
   //   } else {
   //     SmartDashboard.putBoolean("switch closed", false);
-  //     armMotor.set(0.0);
+  //     System.out.println("switch opened");
+  //     return false;
       
   //   }
+
   // }
 
   

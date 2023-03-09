@@ -21,26 +21,31 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.ArmSubsystem.runArm(0.5);
+    if (Robot.ArmSubsystem.toggleForward()) {
+      Robot.ArmSubsystem.runArm(0.05);
+    } else {
+      Robot.ArmSubsystem.runArm(-0.05);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Robot.ArmSubsystem.runArm(0.0);
+    Robot.ArmSubsystem.armReset();
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (Robot.ArmSubsystem.limitSwitchClosed()) {
-    //   return true;
-    // }
-    // else {
-    //   return false;
-    // }
-    return false;
+    if (Robot.ArmSubsystem.encoderLimitReached()) {
+      return true;
+    }
+    else {
+      return false;
+    }
+    // return false;
 
   }
   

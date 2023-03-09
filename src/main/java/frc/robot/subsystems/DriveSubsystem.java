@@ -71,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("yaw", yaw);
     System.out.println("pitch: " + pitch + "  roll: " + roll + "  yaw: " + yaw);
 
-    // Drive the left and right sides of the talons
+    // Drive the left and right sides of the neos
     Left1.set(left);
     Left2.set(left);
     Right1.set(-right);
