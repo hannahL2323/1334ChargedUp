@@ -144,6 +144,11 @@ public class DriveSubsystem extends SubsystemBase {
     TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
   }
 
+  public void driveReset(){
+    AutoArcadeDrive(0, 0);
+    driveEncoder.setPosition(0);
+  }
+
   public double encoderPosition() {
     return driveEncoder.getPosition();
   }

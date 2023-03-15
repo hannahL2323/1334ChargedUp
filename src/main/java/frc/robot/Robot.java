@@ -9,12 +9,14 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Auto.AutoSequence;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -36,11 +38,14 @@ public class Robot extends TimedRobot {
 
   // initializing commands
   public static DriveCommand DriveCommand = new DriveCommand();
-  public static ArmCommand ArmCommand = new ArmCommand();
-  public static IntakeWristCommand IntakeWristCommand = new IntakeWristCommand();
-  public static IntakeWheelCommand IntakeWheelCommand = new IntakeWheelCommand();
+  CommandScheduler commandScheduler = CommandScheduler.getInstance();
 
-  // public static SendableChooser<Double> m_Chooser = new SendableChooser<>();
+
+  // auto
+  private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   // public static UsbCamera Camera;
 
@@ -50,10 +55,11 @@ public class Robot extends TimedRobot {
    * used for any initialization code.
    */
   public void robotInit() {
+    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("My Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
     // Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
     // CameraServer.startAutomaticCapture();
-
-
   }
 
  
@@ -81,12 +87,25 @@ public class Robot extends TimedRobot {
    * SendableChooser make sure to add them to the chooser code above as well.
    */
   public void autonomousInit() {
+    m_autoSelected = m_chooser.getSelected();
+    System.out.println("Auto selected: " + m_autoSelected);
   }
 
   /**
    * This function is called periodically during autonomous.
    */
   public void autonomousPeriodic() {
+    switch (m_autoSelected) {
+      case kCustomAuto:
+        // Put custom auto code here
+        commandScheduler.schedule(new AutoSequence());
+        break;
+      case kDefaultAuto:
+      default:
+        // Put default auto code here
+        commandScheduler.schedule(new AutoSequence());
+        break;
+    }
   }
 
   /**

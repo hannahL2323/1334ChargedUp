@@ -78,6 +78,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+  public double encoderPosition() {
+    return armEncoderOne.getPosition();
+  }
+
   // public boolean limitSwitchClosed() {
   //   if (limitSwitch.get()) {
   //     SmartDashboard.putBoolean("switch closed", true);
