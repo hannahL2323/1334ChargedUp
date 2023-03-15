@@ -9,7 +9,6 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
@@ -29,17 +28,17 @@ import edu.wpi.first.wpilibj.SPI;
 public class Robot extends TimedRobot {
 
   //initializing subsystems
-
   public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static ArmSubsystem ArmSubsystem = new ArmSubsystem();
+  public static IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
 
   public static OI OI = new OI();
 
   // initializing commands
-
   public static DriveCommand DriveCommand = new DriveCommand();
   public static ArmCommand ArmCommand = new ArmCommand();
-
+  public static IntakeWristCommand IntakeWristCommand = new IntakeWristCommand();
+  public static IntakeWheelCommand IntakeWheelCommand = new IntakeWheelCommand();
 
   // public static SendableChooser<Double> m_Chooser = new SendableChooser<>();
 

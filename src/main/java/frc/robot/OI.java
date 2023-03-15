@@ -23,41 +23,57 @@ public class OI {
      
 
     public static XboxController Driver = new XboxController(0);
+    public static XboxController Operator = new XboxController(1);
+
 
     // driver buttons
-    public JoystickButton aButton = new JoystickButton(Driver, 1);
-    public JoystickButton bButton = new JoystickButton(Driver, 2);
-    public JoystickButton xButton = new JoystickButton(Driver, 3);
-    public JoystickButton yButton = new JoystickButton(Driver, 4);
-
+    public JoystickButton driverA = new JoystickButton(Driver, 1);
+    public JoystickButton driverB = new JoystickButton(Driver, 2);
+    public JoystickButton driverX = new JoystickButton(Driver, 3);
+    public JoystickButton driverY = new JoystickButton(Driver, 4);
     // Driver bumpers
-    public JoystickButton leftBumper;
-    public JoystickButton rightBumper;
+    public JoystickButton driverLeftBumper = new JoystickButton(Driver, 5);
+    public JoystickButton driverRightBumper = new JoystickButton(Driver, 6);
+
+    // operator buttons
+    public JoystickButton operatorA = new JoystickButton(Operator, 1);
+    public JoystickButton operatorB = new JoystickButton(Operator, 2);
+    public JoystickButton operatorX = new JoystickButton(Operator, 3);
+    public JoystickButton operatorY = new JoystickButton(Operator, 4);
+    // operator bumpers
+    public JoystickButton operatorLeftBumper = new JoystickButton(Operator, 5);
+    public JoystickButton operatorRightBumper = new JoystickButton(Operator, 6);
 
 
     public OI() {
-      
-        aButton.whileTrue(new ArmCommand());
-
-
+       operatorA.whileTrue(new ArmCommand());
+       operatorX.whileTrue(new IntakeWristCommand());
+       operatorB.whileTrue(new IntakeWheelCommand());
     }
 
     public static boolean getAutoBalance() {
-        return Driver.getXButton();
+        return Driver.getLeftBumper();
     }
 
     public static double getSpeed() {
-
-
-        // if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {
-
+        if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.04) {
             return (Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis());
-        
+        } else {
+            return 0.0;
         }
-        
+    }
+
+    // public static double getArm() {
+    //     return (Operator.getRightTriggerAxis() - Operator.getLeftTriggerAxis());
+    // }
+
 
     public static double getTurn () {
-        return (Driver.getRawAxis(0)) * 0.75;
+        if (Math.abs(Driver.getRawAxis(0)) > 0.04) {
+            return (Driver.getRawAxis(0)) * 0.75;
+        } else {
+            return 0.0;
+        }
     }
     
 

@@ -10,32 +10,36 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType; 
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSubsystem extends SubsystemBase {
 
   CANSparkMax armMotorOne;
-  CANSparkMax armMotorTwo;
+  // CANSparkMax armMotorTwo;
 
   DigitalInput limitSwitch;
-  RelativeEncoder armEncoder;
-  double threshold = 1;
-  boolean toggle = true;
+  RelativeEncoder armEncoderOne;
+  // RelativeEncoder armEncoderTwo;
+
+  double threshold = 3;
+  boolean toggle = false;
 
   public ArmSubsystem() {
     armMotorOne = new CANSparkMax(RobotMap.armMotorOne, MotorType.kBrushless);
-    armMotorTwo = new CANSparkMax(RobotMap.armMotorTwo, MotorType.kBrushless);
+    // armMotorTwo = new CANSparkMax(RobotMap.armMotorTwo, MotorType.kBrushless);
     limitSwitch = new DigitalInput(RobotMap.limitSwitch);
-    armEncoder = armMotorOne.getEncoder();
 
-    armMotorTwo.setInverted(true);
+    // armMotorTwo.setInverted(true);
+
+    armEncoderOne = armMotorOne.getEncoder();
+    // armEncoderTwo = armMotorTwo.getEncoder();
+
 
   }
 
   public boolean encoderLimitReached() {
-    double encoderPosition = Math.abs(armEncoder.getPosition());
+    double encoderPosition = Math.abs(armEncoderOne.getPosition());
 
     if (encoderPosition >= threshold) {
       return true;
@@ -46,13 +50,23 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public void runArm(double speed) {
+    // armMotorOne.set(speed * 0.1);
+    // armMotorTwo.set(speed * 0.1);
+
     armMotorOne.set(speed);
-    armMotorTwo.set(speed);
-    SmartDashboard.putNumber("arm encoder", armEncoder.getPosition());
+    // armMotorTwo.set(speed);
+
+    SmartDashboard.putNumber("#1 arm position", armEncoderOne.getPosition());
+    // SmartDashboard.putNumber("#2 arm position", armEncoderTwo.getPosition());
+    SmartDashboard.putNumber("#1 arm velocity", armEncoderOne.getVelocity());
+    // SmartDashboard.putNumber("#2 arm velocity", armEncoderTwo.getVelocity());
   }
 
   public void armReset() {
-    armEncoder.setPosition(0);
+    armMotorOne.set(0);
+    // armMotorTwo.set(0);
+    armEncoderOne.setPosition(0);
+    // armEncoderTwo.setPosition(0);
     toggle = !toggle;
   }
 
@@ -67,12 +81,9 @@ public class ArmSubsystem extends SubsystemBase {
   // public boolean limitSwitchClosed() {
   //   if (limitSwitch.get()) {
   //     SmartDashboard.putBoolean("switch closed", true);
-  //     System.out.println("switch closed");
   //     return true;
-      
   //   } else {
   //     SmartDashboard.putBoolean("switch closed", false);
-  //     System.out.println("switch opened");
   //     return false;
       
   //   }

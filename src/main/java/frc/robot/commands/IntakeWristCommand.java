@@ -5,14 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ArmCommand extends CommandBase {
-  /** Creates a new ArmCommand. */
-  public ArmCommand() {
+public class IntakeWristCommand extends CommandBase {
+  /** Creates a new IntakeWristCommand. */
+  public IntakeWristCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.ArmSubsystem);
+    addRequirements(Robot.IntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,29 +21,25 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Robot.ArmSubsystem.runArm(OI.getArm());
-    if (Robot.ArmSubsystem.toggleForward()) {
-      Robot.ArmSubsystem.runArm(0.3);
+    if (Robot.IntakeSubsystem.toggleForward()) {
+      Robot.IntakeSubsystem.intakeWrist(0.1);
     } else {
-      Robot.ArmSubsystem.runArm(-0.3);
+      Robot.IntakeSubsystem.intakeWrist(-0.1);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.ArmSubsystem.armReset();
-
+    Robot.IntakeSubsystem.intakeReset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (Robot.ArmSubsystem.encoderLimitReached()) {
-    //   return true;
-    // }
+    if (Robot.IntakeSubsystem.encoderLimitReached()) {
+      return true;
+    }
     return false;
-
   }
-  
 }

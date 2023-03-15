@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.revrobotics.RelativeEncoder;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -42,11 +43,24 @@ public class DriveSubsystem extends SubsystemBase {
   // Talon Right1 = new Talon(RobotMap.Right1);
   // Talon Right2 = new Talon(RobotMap.Right2); 
   
-  CANSparkMax Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
-  CANSparkMax Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);
-  CANSparkMax Right1 = new CANSparkMax(RobotMap.Right1, MotorType.kBrushless);
-  CANSparkMax Right2 = new CANSparkMax(RobotMap.Right2, MotorType.kBrushless);
+  CANSparkMax Left1;
+  CANSparkMax Left2;
+  CANSparkMax Right1;
+  CANSparkMax Right2;
+  RelativeEncoder driveEncoder;
  
+  public DriveSubsystem() {
+
+    Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
+    Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);
+    Right1 = new CANSparkMax(RobotMap.Right1, MotorType.kBrushless);
+    Right2 = new CANSparkMax(RobotMap.Right2, MotorType.kBrushless);
+
+    driveEncoder = Left1.getEncoder();
+
+    Right1.setInverted(true);
+    Right2.setInverted(true);
+  }
 
   public void TankDrive (double left, double right) {
 
@@ -57,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     while (balanceEnabled()) {
       if (Math.abs(pitch) > threshold) {
-        System.out.println("autobalance enabled");
+        SmartDashboard.putBoolean("auto balance enabled", true);
         // If the pitch angle exceeds the threshold, reverse the direction of the motors
         double pitchRadian = pitch * (Math.PI / 180.0);
         left = Math.sin(pitchRadian) * -1;
@@ -69,13 +83,12 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("pitch", pitch);
     SmartDashboard.putNumber("roll", roll);
     SmartDashboard.putNumber("yaw", yaw);
-    System.out.println("pitch: " + pitch + "  roll: " + roll + "  yaw: " + yaw);
 
     // Drive the left and right sides of the neos
     Left1.set(left);
     Left2.set(left);
-    Right1.set(-right);
-    Right2.set(-right);
+    Right1.set(right);
+    Right2.set(right);
 
     // Left1.set(ControlMode.PercentOutput, left);
     // Left2.set(ControlMode.PercentOutput, left);
@@ -97,6 +110,43 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
+  public void AutoTankDrive(double left, double right) {
+
+    double yaw = ahrs.getAngle();
+    double pitch = ahrs.getPitch();
+    double roll = ahrs.getRoll(); 
+    double threshold = 10.0; // adjust as needed
+    
+    if (Math.abs(pitch) > threshold) {
+      // If the pitch angle exceeds the threshold, reverse the direction of the motors
+      double pitchRadian = pitch * (Math.PI / 180.0);
+      left = Math.sin(pitchRadian) * -1;
+      right = Math.sin(pitchRadian) * -1;
+    }
+    
+    SmartDashboard.putNumber("pitch", pitch);
+    SmartDashboard.putNumber("roll", roll);
+    SmartDashboard.putNumber("yaw", yaw);
+
+    // Drive the left and right sides of the neos
+    Left1.set(left);
+    Left2.set(left);
+    Right1.set(right);
+    Right2.set(right);
+
+    // Left1.set(ControlMode.PercentOutput, left);
+    // Left2.set(ControlMode.PercentOutput, left);
+    // Right1.set(ControlMode.PercentOutput,-right);
+    // Right2.set(ControlMode.PercentOutput,-right);               
+  }
+
+  public void AutoArcadeDrive (double speed, double turn) {
+    TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
+  }
+
+  public double encoderPosition() {
+    return driveEncoder.getPosition();
+  }
 
 }
 
