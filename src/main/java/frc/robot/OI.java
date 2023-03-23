@@ -46,13 +46,16 @@ public class OI {
 
 
     public OI() {
-       operatorA.whileTrue(new ArmCommand());
+       operatorA.whileTrue(new ArmCommand(-0.3));
        operatorX.whileTrue(new IntakeWristCommand());
        operatorB.whileTrue(new IntakeWheelCommand());
+       
+       driverRightBumper.onTrue(new IntakeSolCommand());
+       driverLeftBumper.whileTrue(new AutoBalance());
     }
 
     public static boolean getAutoBalance() {
-        return Driver.getLeftBumper();
+        return Driver.getRawButton(5);
     }
 
     public static double getSpeed() {
@@ -63,14 +66,9 @@ public class OI {
         }
     }
 
-    // public static double getArm() {
-    //     return (Operator.getRightTriggerAxis() - Operator.getLeftTriggerAxis());
-    // }
-
-
     public static double getTurn () {
         if (Math.abs(Driver.getRawAxis(0)) > 0.04) {
-            return (Driver.getRawAxis(0)) * 0.75;
+            return (Driver.getRawAxis(0));
         } else {
             return 0.0;
         }

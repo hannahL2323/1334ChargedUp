@@ -63,27 +63,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void TankDrive (double left, double right) {
-
-    double yaw = ahrs.getAngle();
-    double pitch = ahrs.getPitch();
-    double roll = ahrs.getRoll(); 
-    double threshold = 10.0; // adjust as needed
-    
-    while (balanceEnabled()) {
-      if (Math.abs(pitch) > threshold) {
-        SmartDashboard.putBoolean("auto balance enabled", true);
-        // If the pitch angle exceeds the threshold, reverse the direction of the motors
-        double pitchRadian = pitch * (Math.PI / 180.0);
-        left = Math.sin(pitchRadian) * -1;
-        right = Math.sin(pitchRadian) * -1;
-      }
-    }
-    
-
-    SmartDashboard.putNumber("pitch", pitch);
-    SmartDashboard.putNumber("roll", roll);
-    SmartDashboard.putNumber("yaw", yaw);
-
     // Drive the left and right sides of the neos
     Left1.set(left);
     Left2.set(left);
@@ -99,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public void ArcadeDrive (double speed, double turn) {
-    TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
+    TankDrive((speed + turn), (speed - turn));
   }
 
   public boolean balanceEnabled () {
@@ -110,48 +89,76 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
-  public void AutoTankDrive(double left, double right) {
-
+  public void autoBalance() {
     double yaw = ahrs.getAngle();
     double pitch = ahrs.getPitch();
     double roll = ahrs.getRoll(); 
     double threshold = 10.0; // adjust as needed
+    double left = 0;
+    double right = 0;
     
-    if (Math.abs(pitch) > threshold) {
+    
+    SmartDashboard.putBoolean("balance enabled", true);
+    if (Math.abs(roll) > threshold) {
+      SmartDashboard.putBoolean("auto balance enabled", true);
       // If the pitch angle exceeds the threshold, reverse the direction of the motors
-      double pitchRadian = pitch * (Math.PI / 180.0);
-      left = Math.sin(pitchRadian) * -1;
-      right = Math.sin(pitchRadian) * -1;
-    }
-    
-    SmartDashboard.putNumber("pitch", pitch);
-    SmartDashboard.putNumber("roll", roll);
-    SmartDashboard.putNumber("yaw", yaw);
+      double rollRadian = roll * (Math.PI / 180.0);
+      left = Math.sin(rollRadian) * -1;
+      right = Math.sin(rollRadian) * -1;
+    }   
 
-    // Drive the left and right sides of the neos
     Left1.set(left);
     Left2.set(left);
     Right1.set(right);
     Right2.set(right);
 
-    // Left1.set(ControlMode.PercentOutput, left);
-    // Left2.set(ControlMode.PercentOutput, left);
-    // Right1.set(ControlMode.PercentOutput,-right);
-    // Right2.set(ControlMode.PercentOutput,-right);               
+    SmartDashboard.putNumber("pitch", pitch);
+    SmartDashboard.putNumber("roll", roll);
+    SmartDashboard.putNumber("yaw", yaw);
   }
 
-  public void AutoArcadeDrive (double speed, double turn) {
-    TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
-  }
+  // public void AutoTankDrive(double left, double right) {
 
-  public void driveReset(){
-    AutoArcadeDrive(0, 0);
-    driveEncoder.setPosition(0);
-  }
+  //   double yaw = ahrs.getAngle();
+  //   double pitch = ahrs.getPitch();
+  //   double roll = ahrs.getRoll(); 
+  //   double threshold = 10.0; // adjust as needed
+    
+  //   if (Math.abs(pitch) > threshold) {
+  //     // If the pitch angle exceeds the threshold, reverse the direction of the motors
+  //     double pitchRadian = pitch * (Math.PI / 180.0);
+  //     left = Math.sin(pitchRadian) * -1;
+  //     right = Math.sin(pitchRadian) * -1;
+  //   }
+    
+  //   SmartDashboard.putNumber("pitch", pitch);
+  //   SmartDashboard.putNumber("roll", roll);
+  //   SmartDashboard.putNumber("yaw", yaw);
 
-  public double encoderPosition() {
-    return driveEncoder.getPosition();
-  }
+  //   // Drive the left and right sides of the neos
+  //   Left1.set(left);
+  //   Left2.set(left);
+  //   Right1.set(right);
+  //   Right2.set(right);
+
+  //   // Left1.set(ControlMode.PercentOutput, left);
+  //   // Left2.set(ControlMode.PercentOutput, left);
+  //   // Right1.set(ControlMode.PercentOutput,-right);
+  //   // Right2.set(ControlMode.PercentOutput,-right);               
+  // }
+
+  // public void AutoArcadeDrive (double speed, double turn) {
+  //   TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
+  // }
+
+  // public void driveReset(){
+  //   AutoArcadeDrive(0, 0);
+  //   driveEncoder.setPosition(0);
+  // }
+
+  // public double encoderPosition() {
+  //   return driveEncoder.getPosition();
+  // }
 
 }
 

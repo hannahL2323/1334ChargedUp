@@ -17,6 +17,8 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -40,6 +42,8 @@ public class Robot extends TimedRobot {
   public static DriveCommand DriveCommand = new DriveCommand();
   CommandScheduler commandScheduler = CommandScheduler.getInstance();
 
+  private static Compressor compressor = new Compressor(11, PneumaticsModuleType.REVPH);
+
 
   // auto
   private static final String kDefaultAuto = "Default";
@@ -60,6 +64,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     // Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
     // CameraServer.startAutomaticCapture();
+    compressor.enableDigital();
   }
 
  
@@ -87,6 +92,8 @@ public class Robot extends TimedRobot {
    * SendableChooser make sure to add them to the chooser code above as well.
    */
   public void autonomousInit() {
+    compressor.enableDigital();
+
     m_autoSelected = m_chooser.getSelected();
     System.out.println("Auto selected: " + m_autoSelected);
   }
@@ -106,6 +113,12 @@ public class Robot extends TimedRobot {
         commandScheduler.schedule(new AutoSequence());
         break;
     }
+  }
+
+  /** This function is called once when teleop is enabled. */
+  @Override
+  public void teleopInit() {
+    compressor.enableDigital();
   }
 
   /**

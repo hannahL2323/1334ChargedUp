@@ -5,20 +5,11 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.ArmSubsystem;
 
-public class AutoArm extends CommandBase {
-
-  double speed;
-  double threshold;
-
-  /** Creates a new AutoArm. */
-  public AutoArm(double speed, double threshold) {
+public class AutoIntakeWrist extends CommandBase {
+  /** Creates a new AutoIntakeWrist. */
+  public AutoIntakeWrist() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.ArmSubsystem);
-    this.speed = speed;
-    this.threshold = threshold;
   }
 
   // Called when the command is initially scheduled.
@@ -27,19 +18,15 @@ public class AutoArm extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    Robot.ArmSubsystem.runArm(speed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    Robot.ArmSubsystem.armReset();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot.ArmSubsystem.encoderLimitReached(75);
+    return false;
   }
 }

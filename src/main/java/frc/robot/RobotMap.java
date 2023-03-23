@@ -14,7 +14,7 @@ public class RobotMap {
     // 34 arm
     public static final int armMotorOne = 6;
     public static final int armMotorTwo = 5;
-    public static final int intakeMotor = 7;
+    public static final int wristMotor = 7;
     public static final int intakeWheel = 8;
 
     // 74 arm

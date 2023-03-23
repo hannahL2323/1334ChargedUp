@@ -9,10 +9,14 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ArmCommand extends CommandBase {
+  double speed;
+
   /** Creates a new ArmCommand. */
-  public ArmCommand() {
+  public ArmCommand(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.ArmSubsystem);
+
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -23,26 +27,19 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     // Robot.ArmSubsystem.runArm(OI.getArm());
-    if (Robot.ArmSubsystem.toggleForward()) {
-      Robot.ArmSubsystem.runArm(0.3);
-    } else {
-      Robot.ArmSubsystem.runArm(-0.3);
-    }
+    Robot.ArmSubsystem.runArm(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Robot.ArmSubsystem.armReset();
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (Robot.ArmSubsystem.encoderLimitReached()) {
-    //   return true;
-    // }
+    // return Robot.ArmSubsystem.encoderLimitReached(50);
     return false;
 
   }

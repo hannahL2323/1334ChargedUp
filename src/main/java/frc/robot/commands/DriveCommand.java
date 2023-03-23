@@ -27,7 +27,7 @@ public class DriveCommand extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   public void execute() {
 
-    Robot.DriveSubsystem.ArcadeDrive(OI.getSpeed(), OI.getTurn());
+    Robot.DriveSubsystem.ArcadeDrive(OI.getSpeed() * 0.9, OI.getTurn() * 0.5);
 
   }
 
