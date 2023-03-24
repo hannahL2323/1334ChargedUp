@@ -81,13 +81,13 @@ public class DriveSubsystem extends SubsystemBase {
     TankDrive((speed + turn), (speed - turn));
   }
 
-  public boolean balanceEnabled () {
-    if (OI.getAutoBalance()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // public boolean balanceEnabled () {
+  //   if (OI.getAutoBalance()) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   public void autoBalance() {
     double yaw = ahrs.getAngle();

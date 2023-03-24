@@ -14,11 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Compressor;
 
 public class IntakeSubsystem extends SubsystemBase {
   CANSparkMax wristMotor;
   RelativeEncoder wristEncoder;
 
+  // Compressor compressor;
+  // double current;
   DoubleSolenoid intakeSol;
 
   CANSparkMax intakeWheel;
@@ -31,7 +34,9 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeWheel = new CANSparkMax(RobotMap.intakeWheel, MotorType.kBrushless);
 
     intakeSol = new DoubleSolenoid(11, PneumaticsModuleType.REVPH, 0, 1);
-    intakeSol.set(Value.kReverse);
+    // intakeSol.set(Value.kForward);
+    // compressor = new Compressor(11, PneumaticsModuleType.REVPH);
+    // current = compressor.getPressure();
   }
 
   public void intakeWrist(double speed) {
@@ -57,7 +62,18 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeWheel.set(speed);
   }
 
-  public void toggleSol() {
-    intakeSol.toggle();
+  public void solForward() {
+    intakeSol.set(Value.kForward);
+    SmartDashboard.putBoolean("solenoid forward", true);
   }
+
+  public void solReverse() {
+    intakeSol.set(Value.kReverse);
+    SmartDashboard.putBoolean("solenoid reverse", true);
+  }
+
+  public void solOff() {
+    intakeSol.set(Value.kOff);
+  }
+
 }

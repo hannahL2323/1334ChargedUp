@@ -43,7 +43,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-
   public void runArm(double speed) {
     
     armMotorOne.set(speed);

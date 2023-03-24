@@ -10,7 +10,6 @@ package frc.robot;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -46,17 +45,20 @@ public class OI {
 
 
     public OI() {
-       operatorA.whileTrue(new ArmCommand(-0.3));
-       operatorX.whileTrue(new IntakeWristCommand());
-       operatorB.whileTrue(new IntakeWheelCommand());
+       operatorA.whileTrue(new ArmCommand(-0.1));
+       operatorB.whileTrue(new ArmCommand(0.1));
+
+       operatorX.whileTrue(new IntakeWristCommand(-0.1));
+       operatorY.whileTrue(new IntakeWheelCommand());
+       operatorLeftBumper.onTrue(new SolForward());
+       operatorRightBumper.onTrue(new SolReverse());
        
-       driverRightBumper.onTrue(new IntakeSolCommand());
        driverLeftBumper.whileTrue(new AutoBalance());
     }
 
-    public static boolean getAutoBalance() {
-        return Driver.getRawButton(5);
-    }
+    // public static boolean getAutoBalance() {
+    //     return Driver.getRawButton(5);
+    // }
 
     public static double getSpeed() {
         if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.04) {
