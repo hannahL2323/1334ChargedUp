@@ -10,6 +10,9 @@ package frc.robot;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Intake.ArmCommand;
+import frc.robot.commands.Intake.IntakeWheelCommand;
+import frc.robot.commands.Intake.IntakeWristCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -49,8 +52,8 @@ public class OI {
        operatorB.whileTrue(new ArmCommand(0.1));
 
        operatorX.whileTrue(new IntakeWristCommand(-0.1));
-       operatorY.whileTrue(new IntakeWheelCommand());
-       
+       operatorY.whileTrue(new IntakeWheelCommand(0.3));
+
        operatorRightBumper.onTrue(new SolForward());
        operatorLeftBumper.onTrue(new SolReverse());
        

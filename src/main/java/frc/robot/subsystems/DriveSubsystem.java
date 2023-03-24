@@ -32,24 +32,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
-
-  // TalonSRX Left1 = new TalonSRX(RobotMap.Left1);
-  // TalonSRX Left2 = new TalonSRX(RobotMap.Left2);
-  // TalonSRX Right1 = new TalonSRX(RobotMap.Right1);
-  // TalonSRX Right2 = new TalonSRX(RobotMap.Right2);
-
-  // Talon Left1 = new Talon(RobotMap.Left1);
-  // Talon Left2 = new Talon(RobotMap.Left2);
-  // Talon Right1 = new Talon(RobotMap.Right1);
-  // Talon Right2 = new Talon(RobotMap.Right2); 
-  
   CANSparkMax Left1;
   CANSparkMax Left2;
   CANSparkMax Right1;
   CANSparkMax Right2;
   RelativeEncoder driveEncoder;
+  double balanceThreshold;
  
   public DriveSubsystem() {
+    balanceThreshold = 5;
 
     Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
     Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);
@@ -68,12 +59,6 @@ public class DriveSubsystem extends SubsystemBase {
     Left2.set(left);
     Right1.set(right);
     Right2.set(right);
-
-    // Left1.set(ControlMode.PercentOutput, left);
-    // Left2.set(ControlMode.PercentOutput, left);
-    // Right1.set(ControlMode.PercentOutput,-right);
-    // Right2.set(ControlMode.PercentOutput,-right);
-               
   }
 
 
@@ -90,17 +75,17 @@ public class DriveSubsystem extends SubsystemBase {
   // }
 
   public void autoBalance() {
+    // double threshold = 10.0; // adjust as needed
+
     double yaw = ahrs.getAngle();
     double pitch = ahrs.getPitch();
     double roll = ahrs.getRoll(); 
-    double threshold = 10.0; // adjust as needed
     double left = 0;
     double right = 0;
     
-    
     SmartDashboard.putBoolean("balance enabled", true);
-    if (Math.abs(roll) > threshold) {
-      SmartDashboard.putBoolean("auto balance enabled", true);
+    if (Math.abs(roll) > balanceThreshold) {
+      // SmartDashboard.putBoolean("auto balance enabled", true);
       // If the pitch angle exceeds the threshold, reverse the direction of the motors
       double rollRadian = roll * (Math.PI / 180.0);
       left = Math.sin(rollRadian) * -1;
@@ -117,14 +102,35 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("yaw", yaw);
   }
 
+  public void driveReset(){
+    ArcadeDrive(0, 0);
+    driveEncoder.setPosition(0);
+  }
+
+  public boolean driveEncoderLimitReached(double setpoint) {
+    double encoderPosition = Math.abs(driveEncoder.getPosition());
+    if (encoderPosition >= setpoint) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
+
+
+
+  // auto drive
+
   // public void AutoTankDrive(double left, double right) {
+  //   // double threshold = 10.0; // adjust as needed
 
   //   double yaw = ahrs.getAngle();
   //   double pitch = ahrs.getPitch();
   //   double roll = ahrs.getRoll(); 
-  //   double threshold = 10.0; // adjust as needed
     
-  //   if (Math.abs(pitch) > threshold) {
+  //   if (Math.abs(pitch) > balanceThreshold) {
   //     // If the pitch angle exceeds the threshold, reverse the direction of the motors
   //     double pitchRadian = pitch * (Math.PI / 180.0);
   //     left = Math.sin(pitchRadian) * -1;
@@ -139,27 +145,14 @@ public class DriveSubsystem extends SubsystemBase {
   //   Left1.set(left);
   //   Left2.set(left);
   //   Right1.set(right);
-  //   Right2.set(right);
-
-  //   // Left1.set(ControlMode.PercentOutput, left);
-  //   // Left2.set(ControlMode.PercentOutput, left);
-  //   // Right1.set(ControlMode.PercentOutput,-right);
-  //   // Right2.set(ControlMode.PercentOutput,-right);               
+  //   Right2.set(right);     
   // }
 
   // public void AutoArcadeDrive (double speed, double turn) {
-  //   TankDrive((speed - turn) * 0.5, (speed + turn) * 0.5);
+  //   TankDrive((speed + turn), (speed - turn));
   // }
 
-  // public void driveReset(){
-  //   AutoArcadeDrive(0, 0);
-  //   driveEncoder.setPosition(0);
-  // }
-
-  // public double encoderPosition() {
-  //   return driveEncoder.getPosition();
-  // }
-
+  
 }
 
 
