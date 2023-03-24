@@ -14,29 +14,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class IntakeSubsystem extends SubsystemBase {
   CANSparkMax wristMotor;
   RelativeEncoder wristEncoder;
-
-  // Compressor compressor;
-  // double current;
-  DoubleSolenoid intakeSol;
-
   CANSparkMax intakeWheel;
+
+  DigitalInput wristLimitSwitch;
+
+  DoubleSolenoid intakeSol;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     wristMotor = new CANSparkMax(RobotMap.wristMotor, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
-    
     intakeWheel = new CANSparkMax(RobotMap.intakeWheel, MotorType.kBrushless);
 
+    wristLimitSwitch = new DigitalInput(RobotMap.wristLimitSwitch);
+
     intakeSol = new DoubleSolenoid(11, PneumaticsModuleType.REVPH, 0, 1);
-    // intakeSol.set(Value.kForward);
-    // compressor = new Compressor(11, PneumaticsModuleType.REVPH);
-    // current = compressor.getPressure();
   }
 
   public void intakeWrist(double speed) {
@@ -76,4 +73,13 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeSol.set(Value.kOff);
   }
 
+  public boolean limitSwitchClosed() {
+    if (wristLimitSwitch.get()) {
+      SmartDashboard.putBoolean("switch closed", true);
+      return true;
+    } else {
+      SmartDashboard.putBoolean("switch closed", false);
+      return false;
+    }
+  }
 }

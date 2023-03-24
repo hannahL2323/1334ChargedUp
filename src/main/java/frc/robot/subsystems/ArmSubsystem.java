@@ -18,14 +18,14 @@ public class ArmSubsystem extends SubsystemBase {
   CANSparkMax armMotorOne;
   CANSparkMax armMotorTwo;
 
-  DigitalInput limitSwitch;
+  DigitalInput armLimitSwitch;
   RelativeEncoder armEncoderOne;
   RelativeEncoder armEncoderTwo;
 
   public ArmSubsystem() {
     armMotorOne = new CANSparkMax(RobotMap.armMotorOne, MotorType.kBrushless);
     armMotorTwo = new CANSparkMax(RobotMap.armMotorTwo, MotorType.kBrushless);
-    limitSwitch = new DigitalInput(RobotMap.limitSwitch);
+    armLimitSwitch = new DigitalInput(RobotMap.armLimitSwitch);
 
     armMotorTwo.setInverted(true);
 
@@ -65,21 +65,16 @@ public class ArmSubsystem extends SubsystemBase {
   //   return armEncoderOne.getPosition();
   // }
 
-  // public boolean limitSwitchClosed() {
-  //   if (limitSwitch.get()) {
-  //     SmartDashboard.putBoolean("switch closed", true);
-  //     return true;
-  //   } else {
-  //     SmartDashboard.putBoolean("switch closed", false);
-  //     return false;
-      
-  //   }
-
-  // }
-
+  public boolean limitSwitchClosed() {
+    if (armLimitSwitch.get()) {
+      SmartDashboard.putBoolean("switch closed", true);
+      return true;
+    } else {
+      SmartDashboard.putBoolean("switch closed", false);
+      return false;      
+    }
+  } 
   
-
-
 }
 
   

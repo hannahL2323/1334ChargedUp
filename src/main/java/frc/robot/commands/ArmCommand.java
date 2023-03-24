@@ -39,7 +39,7 @@ public class ArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.ArmSubsystem.encoderLimitReached(30)) {
+    if (Robot.ArmSubsystem.encoderLimitReached(30) || Robot.ArmSubsystem.limitSwitchClosed()) {
       return true;
     }
     return false;

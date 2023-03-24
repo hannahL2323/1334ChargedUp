@@ -24,6 +24,8 @@ public class RobotMap {
 
     public static final int camera = 9;
 
-    public static final int limitSwitch = 12;
+    public static final int armLimitSwitch = 12;
+    public static final int wristLimitSwitch = 13;
+
 
 }

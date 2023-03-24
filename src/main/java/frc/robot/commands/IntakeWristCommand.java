@@ -37,7 +37,7 @@ public class IntakeWristCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.IntakeSubsystem.wristLimitReached(3)) {
+    if (Robot.IntakeSubsystem.wristLimitReached(3) || Robot.IntakeSubsystem.limitSwitchClosed()) {
       return true;
     }
     return false;

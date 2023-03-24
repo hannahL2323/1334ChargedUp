@@ -50,8 +50,9 @@ public class OI {
 
        operatorX.whileTrue(new IntakeWristCommand(-0.1));
        operatorY.whileTrue(new IntakeWheelCommand());
-       operatorLeftBumper.onTrue(new SolForward());
-       operatorRightBumper.onTrue(new SolReverse());
+       
+       operatorRightBumper.onTrue(new SolForward());
+       operatorLeftBumper.onTrue(new SolReverse());
        
        driverLeftBumper.whileTrue(new AutoBalance());
     }
