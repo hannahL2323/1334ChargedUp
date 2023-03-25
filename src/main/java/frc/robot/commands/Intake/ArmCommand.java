@@ -21,13 +21,19 @@ public class ArmCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (Robot.ArmSubsystem.limitSwitchClosed() || Robot.ArmSubsystem.bottomSwitchClosed()) {
+      Robot.ArmSubsystem.armEnabled(true);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // Robot.ArmSubsystem.runArm(OI.getArm());
-    Robot.ArmSubsystem.runArm(speed);
+
+      Robot.ArmSubsystem.runArm(speed);
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -39,9 +45,15 @@ public class ArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.ArmSubsystem.encoderLimitReached(30) || Robot.ArmSubsystem.limitSwitchClosed()) {
+    if (Robot.ArmSubsystem.encoderLimitReached(20)) {
       return true;
     }
+    // if (Robot.ArmSubsystem.armEnabled()) {
+    //   return false;
+    // }
+    // if (Robot.ArmSubsystem.limitSwitchClosed() || Robot.ArmSubsystem.bottomSwitchClosed()) {
+    //   return true;
+    // }
     return false;
   }
   

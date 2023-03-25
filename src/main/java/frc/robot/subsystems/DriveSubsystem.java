@@ -38,19 +38,35 @@ public class DriveSubsystem extends SubsystemBase {
   CANSparkMax Right2;
   RelativeEncoder driveEncoder;
   double balanceThreshold;
+  double rampValue;
  
   public DriveSubsystem() {
     balanceThreshold = 5;
+    rampValue = 0.5;
 
     Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
     Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);
     Right1 = new CANSparkMax(RobotMap.Right1, MotorType.kBrushless);
     Right2 = new CANSparkMax(RobotMap.Right2, MotorType.kBrushless);
 
+    // Left1.setOpenLoopRampRate(rampValue);
+    // Left2.setOpenLoopRampRate(rampValue);
+    // Right1.setOpenLoopRampRate(rampValue);
+    // Right2.setOpenLoopRampRate(rampValue);
+
     driveEncoder = Left1.getEncoder();
 
     Right1.setInverted(true);
     Right2.setInverted(true);
+  }
+
+  public double speedRamp(double speed) {
+    if (speed > 0) {
+      return 0.2 * (Math.pow(speed, 3)) + 0.8 * (Math.pow(speed, 2));
+    } else {
+      speed = speed * -1;
+    }
+    return -1 * (0.2 * (Math.pow(speed, 3)) + 0.8 * (Math.pow(speed, 2)));
   }
 
   public void TankDrive (double left, double right) {
@@ -63,7 +79,11 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public void ArcadeDrive (double speed, double turn) {
+    // speed = speedRamp(speed);
+    // turn = speedRamp(turn);
+
     TankDrive((speed + turn), (speed - turn));
+    SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
   }
 
   // public boolean balanceEnabled () {

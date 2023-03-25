@@ -11,11 +11,16 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Intake.ArmCommand;
+import frc.robot.commands.Intake.IntakeSequence;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import frc.robot.commands.Intake.IntakeWristCommand;
+import frc.robot.commands.Intake.ScoringSequence;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
@@ -36,7 +41,7 @@ public class OI {
     // Driver bumpers
     public JoystickButton driverLeftBumper = new JoystickButton(Driver, 5);
     public JoystickButton driverRightBumper = new JoystickButton(Driver, 6);
-
+    
     // operator buttons
     public JoystickButton operatorA = new JoystickButton(Operator, 1);
     public JoystickButton operatorB = new JoystickButton(Operator, 2);
@@ -48,16 +53,33 @@ public class OI {
 
 
     public OI() {
-       operatorA.whileTrue(new ArmCommand(-0.1));
-       operatorB.whileTrue(new ArmCommand(0.1));
+    //    operatorA.onTrue(new IntakeSequence());
+    //    operatorB.onTrue(new ScoringSequence());
+
+        // double operatorRightTrigger = Operator.getRightTriggerAxis();
+        // if (operatorRightTrigger >= 0.5) {
+        //     new SolForward();
+        // }
+
+        // double operatorLeftTrigger = Operator.getLeftTriggerAxis();
+        // if (operatorLeftTrigger >= 0.5) {
+        //     new SolReverse();
+        // }
+
+
+       operatorRightBumper.whileTrue(new ArmCommand(0.07));
+       operatorLeftBumper.whileTrue(new ArmCommand(-0.17));
 
        operatorX.whileTrue(new IntakeWristCommand(-0.1));
-       operatorY.whileTrue(new IntakeWheelCommand(0.3));
+       operatorY.whileTrue(new IntakeWristCommand(0.1));
 
-       operatorRightBumper.onTrue(new SolForward());
-       operatorLeftBumper.onTrue(new SolReverse());
+       operatorA.whileTrue(new IntakeWheelCommand(0.3));
+       operatorB.whileTrue(new IntakeWheelCommand(-0.3));
+
+       driverRightBumper.onTrue(new SolForward());
+       driverLeftBumper.onTrue(new SolReverse());
        
-       driverLeftBumper.whileTrue(new AutoBalance());
+       driverX.whileTrue(new AutoBalance());
     }
 
     // public static boolean getAutoBalance() {
@@ -65,7 +87,7 @@ public class OI {
     // }
 
     public static double getSpeed() {
-        if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.04) {
+        if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {
             return (Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis());
         } else {
             return 0.0;
@@ -73,7 +95,7 @@ public class OI {
     }
 
     public static double getTurn () {
-        if (Math.abs(Driver.getRawAxis(0)) > 0.04) {
+        if (Math.abs(Driver.getRawAxis(0)) > 0.15) {
             return (Driver.getRawAxis(0));
         } else {
             return 0.0;

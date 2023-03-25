@@ -10,23 +10,26 @@ import frc.robot.Robot;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.SolForward;
 import frc.robot.commands.Intake.ArmCommand;
+import frc.robot.commands.Intake.IntakeOutSequence;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import frc.robot.commands.Intake.IntakeWristCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoSequence extends SequentialCommandGroup {
+public class SideAutoSequence extends SequentialCommandGroup {
   /** Creates a new AutoSequence. */
-  public AutoSequence() {
-    double driveSpeed = 0.5;
+  public SideAutoSequence() {
+    // double driveSpeed = 0.5;
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ArmCommand(-0.1), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
-    new SolForward(), new AutoDrive(driveSpeed, 0, 10), 
-    new AutoDrive(driveSpeed, -0.5, 5), 
-    new AutoDrive(driveSpeed, 0, 10), 
-    new AutoDrive(driveSpeed, 0.5, 5), new AutoDrive(driveSpeed, 0, 10), 
-    new AutoBalance());
+    // addCommands(new ArmCommand(-0.1), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
+    // new SolForward(), new AutoDrive(driveSpeed, 0, 10), new AutoBalance());
+
+    addCommands(new ArmCommand(0.05),  
+    new AutoDrive(-0.5, 0, 5));
+
+    // addCommands(new AutoDrive(-0.5, 0, 5));
   }
 }

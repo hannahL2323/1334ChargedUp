@@ -9,7 +9,8 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Auto.AutoSequence;
+import frc.robot.commands.Auto.MiddleAutoSequence;
+import frc.robot.commands.Auto.SideAutoSequence;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
   public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static ArmSubsystem ArmSubsystem = new ArmSubsystem();
   public static IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+  public static IntakeWristSubsystem IntakeWristSubsystem = new IntakeWristSubsystem();
 
   public static OI OI = new OI();
 
@@ -51,7 +53,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  // public static UsbCamera Camera;
+  public static UsbCamera Camera;
 
 
   /**
@@ -62,8 +64,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    // Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
-    // CameraServer.startAutomaticCapture();
+    Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
+    CameraServer.startAutomaticCapture();
     compressor.enableDigital();
   }
 
@@ -105,12 +107,12 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
-        commandScheduler.schedule(new AutoSequence());
+        commandScheduler.schedule(new SideAutoSequence());
         break;
       case kDefaultAuto:
       default:
         // Put default auto code here
-        commandScheduler.schedule(new AutoSequence());
+        commandScheduler.schedule(new SideAutoSequence());
         break;
     }
   }
