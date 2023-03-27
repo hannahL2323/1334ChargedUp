@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
@@ -30,6 +31,7 @@ public class AutoDrive extends CommandBase {
   @Override
   public void execute() {
     Robot.DriveSubsystem.ArcadeDrive(speed, turn);
+    SmartDashboard.putBoolean("auto drive enabled", true);
   }
 
   // Called once the command ends or is interrupted.

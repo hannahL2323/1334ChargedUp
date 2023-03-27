@@ -21,9 +21,6 @@ public class RobotMap {
     // public static final int armMotorOne = 6;
     // public static final int armMotorTwo = 7;
 
-
-    public static final int camera = 9;
-
     public static final int armLimitSwitch = 0;
     public static final int armBottomSwitch = 2;
     public static final int wristLimitSwitch = 1;

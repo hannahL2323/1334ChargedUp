@@ -67,14 +67,14 @@ public class OI {
         // }
 
 
-       operatorRightBumper.whileTrue(new ArmCommand(0.07));
-       operatorLeftBumper.whileTrue(new ArmCommand(-0.17));
+       operatorA.whileTrue(new ArmCommand(0.15));
+       operatorB.whileTrue(new ArmCommand(-0.25));
 
-       operatorX.whileTrue(new IntakeWristCommand(-0.1));
-       operatorY.whileTrue(new IntakeWristCommand(0.1));
+       operatorX.whileTrue(new IntakeWristCommand(-0.15));
+       operatorY.whileTrue(new IntakeWristCommand(0.15));
 
-       operatorA.whileTrue(new IntakeWheelCommand(0.3));
-       operatorB.whileTrue(new IntakeWheelCommand(-0.3));
+       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.3));
+       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.3));
 
        driverRightBumper.onTrue(new SolForward());
        driverLeftBumper.onTrue(new SolReverse());

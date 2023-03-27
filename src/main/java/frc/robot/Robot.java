@@ -9,7 +9,8 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Auto.MiddleAutoSequence;
+import frc.robot.commands.Auto.AutoDrive;
+// import frc.robot.commands.Auto.MiddleAutoSequence;
 import frc.robot.commands.Auto.SideAutoSequence;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -41,6 +42,7 @@ public class Robot extends TimedRobot {
   public static OI OI = new OI();
 
   // initializing commands
+  public static SideAutoSequence SideAutoSequence = new SideAutoSequence();
   public static DriveCommand DriveCommand = new DriveCommand();
   CommandScheduler commandScheduler = CommandScheduler.getInstance();
 
@@ -55,6 +57,9 @@ public class Robot extends TimedRobot {
 
   public static UsbCamera Camera;
 
+  long startTime;
+
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -64,7 +69,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    Camera = CameraServer.startAutomaticCapture(RobotMap.camera);
+    Camera = CameraServer.startAutomaticCapture();
     CameraServer.startAutomaticCapture();
     compressor.enableDigital();
   }
@@ -96,25 +101,40 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     compressor.enableDigital();
 
-    m_autoSelected = m_chooser.getSelected();
-    System.out.println("Auto selected: " + m_autoSelected);
+    // m_autoSelected = m_chooser.getSelected();
+    // System.out.println("Auto selected: " + m_autoSelected);
+
+    startTime = System.currentTimeMillis();
+
+    // new SideAutoSequence().schedule();
+
   }
 
   /**
    * This function is called periodically during autonomous.
    */
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        commandScheduler.schedule(new SideAutoSequence());
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        commandScheduler.schedule(new SideAutoSequence());
-        break;
+    // switch (m_autoSelected) {
+    //   case kCustomAuto:
+    //     // Put custom auto code here
+    //     commandScheduler.schedule(new SideAutoSequence());
+    //     break;
+    //   case kDefaultAuto:
+    //   default:
+    //     // Put default auto code here
+    //     commandScheduler.schedule(new SideAutoSequence());
+    //     break;
+    // }
+
+    long currentTime = System.currentTimeMillis();
+
+    if (startTime + 5000 > currentTime) {
+      DriveSubsystem.ArcadeDrive(-0.2, 0);
+    } else {
+      DriveSubsystem.ArcadeDrive(0, 0);
     }
+ 
+
   }
 
   /** This function is called once when teleop is enabled. */

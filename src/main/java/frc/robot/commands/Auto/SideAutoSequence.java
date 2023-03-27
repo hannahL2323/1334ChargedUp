@@ -24,12 +24,18 @@ public class SideAutoSequence extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    // addCommands(new ArmCommand(-0.1), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
-    // new SolForward(), new AutoDrive(driveSpeed, 0, 10), new AutoBalance());
+    
+    // addCommands(new AutoArm(-0.05, 10), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
+    // new AutoDrive(-0.2, 0, 10));
 
-    addCommands(new ArmCommand(0.05),  
-    new AutoDrive(-0.5, 0, 5));
+    addCommands(new AutoArm(-0.05, 5), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
+    new AutoDrive(-0.1, 0, 10));
 
-    // addCommands(new AutoDrive(-0.5, 0, 5));
+    // addCommands(new TimedDrive(-0.2, 0, 5000));
+
+    // addCommands(new ArmCommand(0.05),  
+    // new AutoDrive(-0.5, 0, 5));
+
+    // addCommands(new AutoDrive(-0.1, 0, 10));
   }
 }
