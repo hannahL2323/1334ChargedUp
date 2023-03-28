@@ -86,36 +86,30 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
   }
 
-  // public boolean balanceEnabled () {
-  //   if (OI.getAutoBalance()) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   public void autoBalance() {
     // double threshold = 10.0; // adjust as needed
 
     double yaw = ahrs.getAngle();
     double pitch = ahrs.getPitch();
     double roll = ahrs.getRoll(); 
-    double left = 0;
-    double right = 0;
+    double left;
+    double right;
     
     SmartDashboard.putBoolean("balance enabled", true);
-    if (Math.abs(roll) > balanceThreshold) {
+    if (Math.abs(yaw) > balanceThreshold) {
       // SmartDashboard.putBoolean("auto balance enabled", true);
       // If the pitch angle exceeds the threshold, reverse the direction of the motors
-      double rollRadian = roll * (Math.PI / 180.0);
-      left = Math.sin(rollRadian) * -1;
-      right = Math.sin(rollRadian) * -1;
+      double yawRadian = yaw * (Math.PI / 180.0);
+      left = Math.sin(yawRadian) * -0.5;
+      right = Math.sin(yawRadian) * -0.5;
+
+      Left1.set(left);
+      Left2.set(left);
+      Right1.set(right);
+      Right2.set(right);
     }   
 
-    Left1.set(left);
-    Left2.set(left);
-    Right1.set(right);
-    Right2.set(right);
+    
 
     SmartDashboard.putNumber("pitch", pitch);
     SmartDashboard.putNumber("roll", roll);
@@ -137,44 +131,4 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
 
-
-
-
-
-  // auto drive
-
-  // public void AutoTankDrive(double left, double right) {
-  //   // double threshold = 10.0; // adjust as needed
-
-  //   double yaw = ahrs.getAngle();
-  //   double pitch = ahrs.getPitch();
-  //   double roll = ahrs.getRoll(); 
-    
-  //   if (Math.abs(pitch) > balanceThreshold) {
-  //     // If the pitch angle exceeds the threshold, reverse the direction of the motors
-  //     double pitchRadian = pitch * (Math.PI / 180.0);
-  //     left = Math.sin(pitchRadian) * -1;
-  //     right = Math.sin(pitchRadian) * -1;
-  //   }
-    
-  //   SmartDashboard.putNumber("pitch", pitch);
-  //   SmartDashboard.putNumber("roll", roll);
-  //   SmartDashboard.putNumber("yaw", yaw);
-
-  //   // Drive the left and right sides of the neos
-  //   Left1.set(left);
-  //   Left2.set(left);
-  //   Right1.set(right);
-  //   Right2.set(right);     
-  // }
-
-  // public void AutoArcadeDrive (double speed, double turn) {
-  //   TankDrive((speed + turn), (speed - turn));
-  // }
-
-  
 }
-
-
- 
-

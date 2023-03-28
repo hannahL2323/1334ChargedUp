@@ -9,18 +9,19 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.SolForward;
+import frc.robot.commands.SolReverse;
 import frc.robot.commands.Intake.ArmCommand;
 import frc.robot.commands.Intake.IntakeOutSequence;
-import frc.robot.commands.Intake.IntakeParallel;
+import frc.robot.commands.Intake.IntakeSequence;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import frc.robot.commands.Intake.IntakeWristCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SideAutoSequence extends SequentialCommandGroup {
+public class ScoringSequence extends SequentialCommandGroup {
   /** Creates a new AutoSequence. */
-  public SideAutoSequence() {
+  public ScoringSequence() {
     // double driveSpeed = 0.5;
 
     // Add your commands in the addCommands() call, e.g.
@@ -29,7 +30,8 @@ public class SideAutoSequence extends SequentialCommandGroup {
     // addCommands(new AutoArm(-0.05, 10), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
     // new AutoDrive(-0.2, 0, 10));
 
-    addCommands(new IntakeParallel());
+    // addCommands(new ArmUpParallel(), new SolForward(), new ArmDownParallel());
+    addCommands(new ArmUpParallel(), new SolReverse());
 
     // addCommands(new TimedDrive(-0.2, 0, 5000));
 

@@ -10,12 +10,11 @@ package frc.robot;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Auto.ArmUpParallel;
 import frc.robot.commands.Intake.ArmCommand;
-import frc.robot.commands.Intake.IntakeParallel;
 import frc.robot.commands.Intake.IntakeSequence;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import frc.robot.commands.Intake.IntakeWristCommand;
-import frc.robot.commands.Intake.ScoringSequence;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
@@ -71,7 +70,7 @@ public class OI {
     //    operatorA.onTrue(new ArmCommand(0.15));
     //    operatorB.onTrue(new ArmCommand(-0.25));
 
-    operatorB.onTrue(new IntakeParallel());
+        operatorB.onTrue(new ArmUpParallel());
 
        operatorX.whileTrue(new IntakeWristCommand(-0.15));
        operatorY.whileTrue(new IntakeWristCommand(0.15));

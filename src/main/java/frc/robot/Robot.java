@@ -10,8 +10,10 @@ package frc.robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Auto.AutoDrive;
+import frc.robot.commands.Auto.FinalArmSequence;
+import frc.robot.commands.Auto.ArmUpParallel;
 // import frc.robot.commands.Auto.MiddleAutoSequence;
-import frc.robot.commands.Auto.SideAutoSequence;
+import frc.robot.commands.Auto.ScoringSequence;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -43,15 +45,15 @@ public class Robot extends TimedRobot {
   public static OI OI = new OI();
 
   // initializing commands
-  public static SideAutoSequence SideAutoSequence = new SideAutoSequence();
+  // public static ScoringSequence ScoringSequence = new ScoringSequence();
   public static DriveCommand DriveCommand = new DriveCommand();
-  CommandScheduler commandScheduler = CommandScheduler.getInstance();
+  CommandScheduler commandScheduler;
 
   private static Compressor compressor = new Compressor(11, PneumaticsModuleType.REVPH);
 
 
   // auto
-  Command m_autCommand = new SideAutoSequence();
+  Command m_autoCommand = new FinalArmSequence();
   // private static final String kDefaultAuto = "Default";
   // private static final String kCustomAuto = "My Auto";
   // private String m_autoSelected;
@@ -67,6 +69,7 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+  @Override
   public void robotInit() {
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);
@@ -74,7 +77,6 @@ public class Robot extends TimedRobot {
     Camera = CameraServer.startAutomaticCapture();
     CameraServer.startAutomaticCapture();
     compressor.enableDigital();
-    commandScheduler.getInstance().run();
   }
 
  
@@ -86,8 +88,9 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
+  @Override
   public void robotPeriodic() {
-
+    CommandScheduler.getInstance().run();
   }
 
   /**
@@ -101,17 +104,21 @@ public class Robot extends TimedRobot {
    * the switch structure below with additional strings. If using the
    * SendableChooser make sure to add them to the chooser code above as well.
    */
+  @Override
   public void autonomousInit() {
     compressor.enableDigital();
+    m_autoCommand = new FinalArmSequence();
 
-    if (m_autCommand != null) {
-      m_autCommand.schedule();
+    SmartDashboard.putBoolean("auto enabled", true);
+
+    if (m_autoCommand != null) {
+      m_autoCommand.schedule();
     }
 
     // m_autoSelected = m_chooser.getSelected();
     // System.out.println("Auto selected: " + m_autoSelected);
 
-    startTime = System.currentTimeMillis();
+    // startTime = System.currentTimeMillis();
 
     // new SideAutoSequence().schedule();
 
@@ -120,6 +127,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during autonomous.
    */
+  @Override
   public void autonomousPeriodic() {
     // switch (m_autoSelected) {
     //   case kCustomAuto:
@@ -148,14 +156,16 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     compressor.enableDigital();
-    if (m_autCommand != null) {
-      m_autCommand.cancel();
-    }
+
+    // if (m_autoCommand != null) {
+    //   m_autoCommand.cancel();
+    // }
   }
 
   /**
    * This function is called periodically during operator control.
    */
+  @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     DriveCommand.schedule();
@@ -164,6 +174,7 @@ public class Robot extends TimedRobot {
   /**
    * This function is called periodically during test mode.
    */
+  @Override
   public void testPeriodic() {
   }
 
