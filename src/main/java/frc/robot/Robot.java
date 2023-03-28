@@ -13,6 +13,7 @@ import frc.robot.commands.Auto.AutoDrive;
 // import frc.robot.commands.Auto.MiddleAutoSequence;
 import frc.robot.commands.Auto.SideAutoSequence;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -50,10 +51,11 @@ public class Robot extends TimedRobot {
 
 
   // auto
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  Command m_autCommand = new SideAutoSequence();
+  // private static final String kDefaultAuto = "Default";
+  // private static final String kCustomAuto = "My Auto";
+  // private String m_autoSelected;
+  // private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public static UsbCamera Camera;
 
@@ -66,12 +68,13 @@ public class Robot extends TimedRobot {
    * used for any initialization code.
    */
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    // m_chooser.addOption("My Auto", kCustomAuto);
+    // SmartDashboard.putData("Auto choices", m_chooser);
     Camera = CameraServer.startAutomaticCapture();
     CameraServer.startAutomaticCapture();
     compressor.enableDigital();
+    commandScheduler.getInstance().run();
   }
 
  
@@ -101,6 +104,10 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     compressor.enableDigital();
 
+    if (m_autCommand != null) {
+      m_autCommand.schedule();
+    }
+
     // m_autoSelected = m_chooser.getSelected();
     // System.out.println("Auto selected: " + m_autoSelected);
 
@@ -126,13 +133,13 @@ public class Robot extends TimedRobot {
     //     break;
     // }
 
-    long currentTime = System.currentTimeMillis();
+    // long currentTime = System.currentTimeMillis();
 
-    if (startTime + 5000 > currentTime) {
-      DriveSubsystem.ArcadeDrive(-0.2, 0);
-    } else {
-      DriveSubsystem.ArcadeDrive(0, 0);
-    }
+    // if (startTime + 5000 > currentTime) {
+    //   DriveSubsystem.ArcadeDrive(-0.2, 0);
+    // } else {
+    //   DriveSubsystem.ArcadeDrive(0, 0);
+    // }
  
 
   }
@@ -141,6 +148,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     compressor.enableDigital();
+    if (m_autCommand != null) {
+      m_autCommand.cancel();
+    }
   }
 
   /**

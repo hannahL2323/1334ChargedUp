@@ -45,15 +45,9 @@ public class ArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (Robot.ArmSubsystem.encoderLimitReached(75)) {
-    //   return true;
-    // }
-    // if (Robot.ArmSubsystem.armEnabled()) {
-    //   return false;
-    // }
-    // if (Robot.ArmSubsystem.limitSwitchClosed() || Robot.ArmSubsystem.bottomSwitchClosed()) {
-    //   return true;
-    // }
+    if (Robot.ArmSubsystem.encoderLimitReached(70)) {
+      return true;
+    }
     return false;
   }
   

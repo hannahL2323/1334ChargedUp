@@ -4,15 +4,14 @@
 
 package frc.robot.commands.Intake;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeSequence extends SequentialCommandGroup {
-  /** Creates a new IntakeSequence. */
-  public IntakeSequence() {
+public class IntakeParallel extends ParallelCommandGroup {
+  /** Creates a new IntakeParallel. */
+  public IntakeParallel() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ArmCommand(-0.25), new IntakeWristCommand(-0.15));

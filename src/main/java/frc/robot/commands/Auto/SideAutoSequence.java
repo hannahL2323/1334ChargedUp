@@ -11,6 +11,7 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.SolForward;
 import frc.robot.commands.Intake.ArmCommand;
 import frc.robot.commands.Intake.IntakeOutSequence;
+import frc.robot.commands.Intake.IntakeParallel;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import frc.robot.commands.Intake.IntakeWristCommand;
 
@@ -28,8 +29,7 @@ public class SideAutoSequence extends SequentialCommandGroup {
     // addCommands(new AutoArm(-0.05, 10), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
     // new AutoDrive(-0.2, 0, 10));
 
-    addCommands(new AutoArm(-0.05, 5), new IntakeWristCommand(-0.1), new AutoIntakeWheel(2000, -0.3), 
-    new AutoDrive(-0.1, 0, 10));
+    addCommands(new IntakeParallel());
 
     // addCommands(new TimedDrive(-0.2, 0, 5000));
 
