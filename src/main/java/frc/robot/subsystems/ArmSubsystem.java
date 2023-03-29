@@ -42,7 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
     armEncoderOne = armMotorOne.getEncoder();
     armEncoderTwo = armMotorTwo.getEncoder();
 
-    rampValue = 0.5;
+    // rampValue = 0.5;
   }
 
   public boolean encoderLimitReached(double setpoint) {

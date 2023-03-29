@@ -37,11 +37,9 @@ public class DriveSubsystem extends SubsystemBase {
   CANSparkMax Right1;
   CANSparkMax Right2;
   RelativeEncoder driveEncoder;
-  double balanceThreshold;
   double rampValue;
  
   public DriveSubsystem() {
-    balanceThreshold = 5;
     rampValue = 0.5;
 
     Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
@@ -86,30 +84,27 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
   }
 
-  public void autoBalance() {
-    // double threshold = 10.0; // adjust as needed
+  // public void autoBalance() {
+  //   double threshold = 10.0; // adjust as needed
 
-    double yaw = ahrs.getAngle();
-    double pitch = ahrs.getPitch();
-    double roll = ahrs.getRoll(); 
-    double left;
-    double right;
+  //   double yaw = ahrs.getAngle();
+  //   double pitch = ahrs.getPitch();
+  //   double roll = ahrs.getRoll(); 
+  //   double left;
+  //   double right;
     
-    SmartDashboard.putBoolean("balance enabled", true);
-    if (Math.abs(yaw) > balanceThreshold) {
-      // SmartDashboard.putBoolean("auto balance enabled", true);
-      // If the pitch angle exceeds the threshold, reverse the direction of the motors
-      double yawRadian = yaw * (Math.PI / 180.0);
-      left = Math.sin(yawRadian) * -0.5;
-      right = Math.sin(yawRadian) * -0.5;
+  //   if (Math.abs(yaw) > threshold) {
+  //     SmartDashboard.putBoolean("balance enabled", true);
+  //     // If the pitch angle exceeds the threshold, reverse the direction of the motors
+  //     double yawRadian = yaw * (Math.PI / 180.0);
+  //     left = Math.sin(yawRadian) * -0.5;
+  //     right = Math.sin(yawRadian) * -0.5;
 
-      Left1.set(left);
-      Left2.set(left);
-      Right1.set(right);
-      Right2.set(right);
-    }   
-
-    
+  //     Left1.set(left);
+  //     Left2.set(left);
+  //     Right1.set(right);
+  //     Right2.set(right);
+  //   }   
 
     SmartDashboard.putNumber("pitch", pitch);
     SmartDashboard.putNumber("roll", roll);

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 import frc.robot.commands.SolForward;
 import frc.robot.commands.SolReverse;
-import frc.robot.commands.Auto.ArmUpParallel;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
