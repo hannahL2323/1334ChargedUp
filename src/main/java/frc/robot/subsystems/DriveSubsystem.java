@@ -106,10 +106,10 @@ public class DriveSubsystem extends SubsystemBase {
   //     Right2.set(right);
   //   }   
 
-    SmartDashboard.putNumber("pitch", pitch);
-    SmartDashboard.putNumber("roll", roll);
-    SmartDashboard.putNumber("yaw", yaw);
-  }
+  //   SmartDashboard.putNumber("pitch", pitch);
+  //   SmartDashboard.putNumber("roll", roll);
+  //   SmartDashboard.putNumber("yaw", yaw);
+  // }
 
   public void driveReset(){
     ArcadeDrive(0, 0);
