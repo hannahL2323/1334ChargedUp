@@ -87,18 +87,18 @@ public class DriveSubsystem extends SubsystemBase {
   // public void autoBalance() {
   //   double threshold = 10.0; // adjust as needed
 
-  //   double yaw = ahrs.getAngle();
+  //   double yaw = ahrs.getYaw();
   //   double pitch = ahrs.getPitch();
   //   double roll = ahrs.getRoll(); 
   //   double left;
   //   double right;
-    
+
   //   if (Math.abs(yaw) > threshold) {
   //     SmartDashboard.putBoolean("balance enabled", true);
   //     // If the pitch angle exceeds the threshold, reverse the direction of the motors
   //     double yawRadian = yaw * (Math.PI / 180.0);
-  //     left = Math.sin(yawRadian) * -0.5;
-  //     right = Math.sin(yawRadian) * -0.5;
+  //     left = Math.sin(yawRadian) * -0.7;
+  //     right = Math.sin(yawRadian) * -0.7;
 
   //     Left1.set(left);
   //     Left2.set(left);

@@ -10,12 +10,9 @@ package frc.robot;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Intake.ArmCommand;
-import frc.robot.commands.Intake.ArmUpParallel;
-import frc.robot.commands.Intake.IntakePosition;
-import frc.robot.commands.Intake.IntakeSequence;
+import frc.robot.commands.Arm.ArmDownSequence;
+import frc.robot.commands.Arm.ArmUpParallel;
 import frc.robot.commands.Intake.IntakeWheelCommand;
-import frc.robot.commands.Intake.IntakeWristCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
@@ -68,21 +65,21 @@ public class OI {
         // }
 
 
-       operatorA.onTrue(new ArmCommand(0.15));
-       operatorB.onTrue(new ArmCommand(-0.25));
+       operatorA.whileTrue(new ArmCommand(0.05));
+       operatorB.whileTrue(new ArmCommand(-0.1));
 
-        // operatorA.onTrue(new IntakePosition());
+        // operatorA.onTrue(new ArmDownSequence());
         // operatorB.onTrue(new ArmUpParallel());
 
-       operatorX.whileTrue(new IntakeWristCommand(-0.15));
-       operatorY.whileTrue(new IntakeWristCommand(0.15));
+       operatorX.whileTrue(new WristCommand(-0.15));
+       operatorY.whileTrue(new WristCommand(0.15));
 
        operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.3));
        operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.3));
 
-       driverRightBumper.onTrue(new SolForward());
        driverLeftBumper.onTrue(new SolReverse());
-       
+       driverRightBumper.onTrue(new SolForward());
+
        driverX.whileTrue(new AutoBalance());
     }
 

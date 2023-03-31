@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class IntakeWristSubsystem extends SubsystemBase {
+public class WristSubsystem extends SubsystemBase {
 
   CANSparkMax wristMotor;
   RelativeEncoder wristEncoder;
@@ -23,7 +23,7 @@ public class IntakeWristSubsystem extends SubsystemBase {
 
 
   /** Creates a new IntakeWristSubsystem. */
-  public IntakeWristSubsystem() {
+  public WristSubsystem() {
     wristMotor = new CANSparkMax(RobotMap.wristMotor, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
     wristLimitSwitch = new DigitalInput(RobotMap.wristLimitSwitch);

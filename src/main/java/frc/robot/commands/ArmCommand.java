@@ -4,36 +4,51 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ToggleSol extends CommandBase {
-  /** Creates a new ToggleSol. */
-  public ToggleSol() {
+public class ArmCommand extends CommandBase {
+  double speed;
+
+  /** Creates a new ArmCommand. */
+  public ArmCommand(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.IntakeSubsystem);
+    addRequirements(Robot.ArmSubsystem);
+
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // if (Robot.ArmSubsystem.limitSwitchClosed() || Robot.ArmSubsystem.bottomSwitchClosed()) {
+    //   Robot.ArmSubsystem.armEnabled(true);
+    // }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.IntakeSubsystem.toggleSol();
+    // Robot.ArmSubsystem.runArm(OI.getArm());
+
+      Robot.ArmSubsystem.runArm(speed);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.IntakeSubsystem.solOff();
+    Robot.ArmSubsystem.armReset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // if (Robot.ArmSubsystem.encoderLimitReached(75)) {
+    //   return true;
+    // }
     return false;
   }
+  
 }

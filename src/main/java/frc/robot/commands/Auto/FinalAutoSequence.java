@@ -6,18 +6,22 @@ package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ArmCommand;
+import frc.robot.commands.SolForward;
 import frc.robot.commands.SolReverse;
-import frc.robot.commands.Intake.ArmDownSequence;
-import frc.robot.commands.Intake.ArmUpParallel;
+import frc.robot.commands.Arm.ArmDownSequence;
+import frc.robot.commands.Arm.ArmUpParallel;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FinalArmSequence extends SequentialCommandGroup {
+public class FinalAutoSequence extends SequentialCommandGroup {
   /** Creates a new FinalArmSequence. */
-  public FinalArmSequence() {
+  public FinalAutoSequence() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ArmUpParallel(), new WaitCommand(0.5), new SolReverse(), new ArmDownSequence());
+    addCommands(new SolForward(), new ArmCommand(0.05), 
+     new ArmUpParallel(), new WaitCommand(0.5), new SolReverse(), new ArmDownSequence(), 
+    new TimedDrive(0.2, 0, 5000));
   }
 }

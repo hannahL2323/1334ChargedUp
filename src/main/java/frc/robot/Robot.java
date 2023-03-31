@@ -9,9 +9,9 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Arm.ArmUpParallel;
 import frc.robot.commands.Auto.AutoDrive;
-import frc.robot.commands.Auto.FinalArmSequence;
-import frc.robot.commands.Intake.ArmUpParallel;
+import frc.robot.commands.Auto.FinalAutoSequence;
 // import frc.robot.commands.Auto.MiddleAutoSequence;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static ArmSubsystem ArmSubsystem = new ArmSubsystem();
   public static IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
-  public static IntakeWristSubsystem IntakeWristSubsystem = new IntakeWristSubsystem();
+  public static WristSubsystem IntakeWristSubsystem = new WristSubsystem();
 
   public static OI OI = new OI();
 
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 
 
   // auto
-  Command m_autoCommand = new FinalArmSequence();
+  Command m_autoCommand = new FinalAutoSequence();
   // private static final String kDefaultAuto = "Default";
   // private static final String kCustomAuto = "My Auto";
   // private String m_autoSelected;
@@ -106,7 +106,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     compressor.enableDigital();
-    m_autoCommand = new FinalArmSequence();
+    m_autoCommand = new FinalAutoSequence();
 
     SmartDashboard.putBoolean("auto enabled", true);
 

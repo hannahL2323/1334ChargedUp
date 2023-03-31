@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.Auto.AutoArm;
@@ -16,6 +16,6 @@ public class ArmUpParallel extends ParallelCommandGroup {
   public ArmUpParallel() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoArm(-0.25, 78), new AutoWrist(-0.15, 20));
+    addCommands(new AutoArm(-0.25, 75), new AutoWrist(-0.15, 20));
   }
 }
