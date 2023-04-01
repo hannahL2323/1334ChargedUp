@@ -45,7 +45,7 @@ public class TimedDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     double currentTime = System.currentTimeMillis();
-    if (startTime + duration >= currentTime) {
+    if (startTime + duration <= currentTime) {
       return true;
     }
     return false;

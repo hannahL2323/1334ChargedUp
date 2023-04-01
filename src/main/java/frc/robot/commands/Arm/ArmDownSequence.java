@@ -16,7 +16,8 @@ public class ArmDownSequence extends SequentialCommandGroup {
   public ArmDownSequence() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoArm(0.15, 75), new AutoWrist(-0.15, 20));
+    addCommands(new AutoArm(0.1, 55), new AutoWrist(-0.15, -10));
 
   }
+
 }

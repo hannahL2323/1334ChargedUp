@@ -12,6 +12,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Arm.ArmDownSequence;
 import frc.robot.commands.Arm.ArmUpParallel;
+import frc.robot.commands.Auto.AutoArm;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -65,8 +66,8 @@ public class OI {
         // }
 
 
-       operatorA.whileTrue(new ArmCommand(0.05));
-       operatorB.whileTrue(new ArmCommand(-0.1));
+       operatorA.whileTrue(new ArmCommand(0.20));
+       operatorB.whileTrue(new ArmCommand(-0.30));
 
         // operatorA.onTrue(new ArmDownSequence());
         // operatorB.onTrue(new ArmUpParallel());

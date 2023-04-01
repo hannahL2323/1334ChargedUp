@@ -32,7 +32,7 @@ public class ArmCommand extends CommandBase {
   public void execute() {
     // Robot.ArmSubsystem.runArm(OI.getArm());
 
-      Robot.ArmSubsystem.runArm(speed);
+    Robot.ArmSubsystem.runArm(speed);
     
   }
 

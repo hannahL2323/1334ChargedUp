@@ -30,7 +30,6 @@ public class AutoArm extends CommandBase {
   @Override
   public void execute() {
     Robot.ArmSubsystem.runArm(speed);
-    SmartDashboard.putBoolean("auto enabled", true);
   }
 
   // Called once the command ends or is interrupted.

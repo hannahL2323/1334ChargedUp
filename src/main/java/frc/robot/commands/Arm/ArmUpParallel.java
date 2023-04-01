@@ -16,6 +16,10 @@ public class ArmUpParallel extends ParallelCommandGroup {
   public ArmUpParallel() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AutoArm(-0.25, 75), new AutoWrist(-0.15, 20));
+
+    addCommands(new AutoArm(-0.05, -20), new AutoWrist(-0.15, -20));
+
+    // addCommands(new AutoArm(-0.05, -20));
+
   }
 }

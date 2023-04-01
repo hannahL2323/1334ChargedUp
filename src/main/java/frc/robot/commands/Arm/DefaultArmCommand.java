@@ -2,46 +2,40 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Auto;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.WristSubsystem;
 
-public class AutoWrist extends CommandBase {
-  double speed;
-  double setpoint;
+public class DefaultArmCommand extends CommandBase {
+  double holdEncoderPosition;
 
-  /** Creates a new AutoWrist. */
-  public AutoWrist(double speed, double setpoint) {
+  /** Creates a new DefaultArmCommand. */
+  public DefaultArmCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.WristSubsystem);
-    this.speed = speed;
-    this.setpoint = setpoint;
+    addRequirements(Robot.ArmSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    holdEncoderPosition = Robot.ArmSubsystem.encoderPosition();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.WristSubsystem.intakeWrist(speed);
+    double error = holdEncoderPosition - Robot.ArmSubsystem.encoderPosition();
+    Robot.ArmSubsystem.runArm(error * 0.01);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    Robot.WristSubsystem.wristReset();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Robot.WristSubsystem.wristLimitReached(setpoint)) {
-      return true;
-    }
     return false;
   }
 }

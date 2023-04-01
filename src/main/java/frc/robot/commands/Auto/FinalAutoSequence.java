@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.SolForward;
 import frc.robot.commands.SolReverse;
+import frc.robot.commands.WristCommand;
 import frc.robot.commands.Arm.ArmDownSequence;
 import frc.robot.commands.Arm.ArmUpParallel;
 
@@ -20,8 +21,14 @@ public class FinalAutoSequence extends SequentialCommandGroup {
   public FinalAutoSequence() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new SolForward(), new ArmCommand(0.05), 
-     new ArmUpParallel(), new WaitCommand(0.5), new SolReverse(), new ArmDownSequence(), 
-    new TimedDrive(0.2, 0, 5000));
+
+
+    //oo addCommands(new SolForward(), new ArmCommand(0.05), 
+    //  new ArmUpParallel(), new WaitCommand(0.5), new SolReverse(), new ArmDownSequence(), 
+    // new TimedDrive(-0.2, 0, 5000));
+
+
+    addCommands(new ArmUpParallel(), new WaitCommand(0.5), new SolForward(), 
+    new AutoArm(0.05, 0), new TimedDrive(0.2, 0, 6500));
   }
 }

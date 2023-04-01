@@ -27,7 +27,17 @@ public class WristSubsystem extends SubsystemBase {
     wristMotor = new CANSparkMax(RobotMap.wristMotor, MotorType.kBrushless);
     wristEncoder = wristMotor.getEncoder();
     wristLimitSwitch = new DigitalInput(RobotMap.wristLimitSwitch);
+
+
   }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("intake wrist position", wristEncoder.getPosition());
+    SmartDashboard.putBoolean(" wrist switch closed", wristLimitSwitch.get());
+
+  }
+
 
   public void intakeWrist(double speed) {
     if (speed < 0) {
@@ -36,12 +46,13 @@ public class WristSubsystem extends SubsystemBase {
       }
     }
     wristMotor.set(speed);
-    SmartDashboard.putNumber("intake wrist position", wristEncoder.getPosition());
   }
 
   public boolean wristLimitReached(double setpoint) {
-    double encoderPosition = Math.abs(wristEncoder.getPosition());
-    if (encoderPosition >= setpoint) {
+    double encoderPosition = wristEncoder.getPosition();
+    double error = Math.abs(encoderPosition - setpoint);
+
+    if (error <= 3) {
       return true;
     } else {
       return false;
@@ -50,19 +61,24 @@ public class WristSubsystem extends SubsystemBase {
 
   public void wristReset() {
     wristMotor.set(0.0);
-    wristEncoder.setPosition(0);
+    // wristEncoder.setPosition(0);
   }
 
   public boolean limitSwitchClosed() {
-    if (wristLimitSwitch.get()) {
-      SmartDashboard.putBoolean(" wrist switch closed", true);
-      wristEnabled = false;
-      return true;
-    } else {
-      SmartDashboard.putBoolean("wrist switch closed", false);
-      wristEnabled = true;
-      return false;
-    }
+    // if (wristLimitSwitch.get()) {
+    //   SmartDashboard.putBoolean(" wrist switch closed", true);
+    //   wristEnabled = false;
+    //   return true;
+    // } else {
+    //   SmartDashboard.putBoolean("wrist switch closed", false);
+    //   wristEnabled = true;
+    //   return false;
+    // }
+    return wristLimitSwitch.get();
+  }
+
+  public double encoderPosition() {
+    return wristEncoder.getPosition();
   }
 
 

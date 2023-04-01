@@ -40,7 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
   double rampValue;
  
   public DriveSubsystem() {
-    rampValue = 0.3;
+    rampValue = 0.2;
 
     Left1 = new CANSparkMax(RobotMap.Left1, MotorType.kBrushless);
     Left2 = new CANSparkMax(RobotMap.Left2, MotorType.kBrushless);

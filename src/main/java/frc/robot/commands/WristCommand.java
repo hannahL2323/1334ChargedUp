@@ -13,7 +13,7 @@ public class WristCommand extends CommandBase {
   /** Creates a new IntakeWristCommand. */
   public WristCommand(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.IntakeWristSubsystem);
+    addRequirements(Robot.WristSubsystem);
 
     this.speed = speed;
   }
@@ -25,13 +25,13 @@ public class WristCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.IntakeWristSubsystem.intakeWrist(speed);
+    Robot.WristSubsystem.intakeWrist(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.IntakeWristSubsystem.wristReset();
+    Robot.WristSubsystem.wristReset();
   }
 
   // Returns true when the command should end.
