@@ -29,6 +29,6 @@ public class FinalAutoSequence extends SequentialCommandGroup {
 
 
     addCommands(new ArmUpParallel(), new WaitCommand(0.5), new SolForward(), 
-    new AutoArm(0.05, 0), new TimedDrive(0.2, 0, 6500));
+    new AutoArm(0.1, 0), new TimedDrive(0.4, 0, 7250));
   }
 }

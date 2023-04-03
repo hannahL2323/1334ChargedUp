@@ -75,8 +75,8 @@ public class OI {
        operatorX.whileTrue(new WristCommand(-0.15));
        operatorY.whileTrue(new WristCommand(0.15));
 
-       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.3));
-       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.3));
+       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.40));
+       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.30));
 
        driverLeftBumper.onTrue(new SolReverse());
        driverRightBumper.onTrue(new SolForward());

@@ -66,7 +66,7 @@ public class ArmSubsystem extends SubsystemBase {
     double encoderPosition = armEncoderOne.getPosition();
     double error = Math.abs(encoderPosition - setpoint);
 
-    if (error <= 3) {
+    if (error <= 1) {
       return true;
     } else {
       return false;

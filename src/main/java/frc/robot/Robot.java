@@ -114,11 +114,11 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("auto enabled", true);
 
-    // m_autoCommand = new FinalAutoSequence();
+    m_autoCommand = new FinalAutoSequence();
 
-    // if (m_autoCommand != null) {
-    //   m_autoCommand.schedule();
-    // }
+    if (m_autoCommand != null) {
+      m_autoCommand.schedule();
+    }
 
     // m_autoSelected = m_chooser.getSelected();
     // System.out.println("Auto selected: " + m_autoSelected);
@@ -144,13 +144,13 @@ public class Robot extends TimedRobot {
     //     break;
     // }
 
-    long currentTime = System.currentTimeMillis();
+    // long currentTime = System.currentTimeMillis();
 
-    if (startTime + 6500 > currentTime) {
-      DriveSubsystem.ArcadeDrive(0.4, 0);
-    } else {
-      DriveSubsystem.ArcadeDrive(0, 0);
-    }
+    // if (startTime + 4500 > currentTime) {
+    //   DriveSubsystem.ArcadeDrive(0.4, 0);
+    // } else {
+    //   DriveSubsystem.ArcadeDrive(0, 0);
+    // }
  
 
   }
