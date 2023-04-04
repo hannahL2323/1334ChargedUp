@@ -10,8 +10,8 @@ package frc.robot;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Arm.ArmDownSequence;
-import frc.robot.commands.Arm.ArmUpParallel;
+import frc.robot.commands.Arm.ArmCommand;
+import frc.robot.commands.Auto.ArmUpParallel;
 import frc.robot.commands.Auto.AutoArm;
 import frc.robot.commands.Intake.IntakeWheelCommand;
 import edu.wpi.first.wpilibj.Joystick;
@@ -65,9 +65,13 @@ public class OI {
         //     new SolReverse();
         // }
 
+        // driverA.onTrue(new ConeScoringSequence());
+        // driverB.onTrue(new CubeScoringSequence());
 
-       operatorA.whileTrue(new ArmCommand(0.20));
-       operatorB.whileTrue(new ArmCommand(-0.30));
+       driverA.onTrue(new ScoringSequence());
+
+       operatorA.whileTrue(new ArmCommand(0.25));
+       operatorB.whileTrue(new ArmCommand(-0.35));
 
         // operatorA.onTrue(new ArmDownSequence());
         // operatorB.onTrue(new ArmUpParallel());
@@ -75,7 +79,7 @@ public class OI {
        operatorX.whileTrue(new WristCommand(-0.15));
        operatorY.whileTrue(new WristCommand(0.15));
 
-       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.40));
+       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.50));
        operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.30));
 
        driverLeftBumper.onTrue(new SolReverse());

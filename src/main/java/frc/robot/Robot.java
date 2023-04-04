@@ -9,7 +9,6 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Arm.ArmUpParallel;
 import frc.robot.commands.Arm.DefaultArmCommand;
 import frc.robot.commands.Auto.AutoDrive;
 import frc.robot.commands.Auto.FinalAutoSequence;

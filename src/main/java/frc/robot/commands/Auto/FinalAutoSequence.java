@@ -6,12 +6,10 @@ package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.ArmCommand;
 import frc.robot.commands.SolForward;
 import frc.robot.commands.SolReverse;
 import frc.robot.commands.WristCommand;
-import frc.robot.commands.Arm.ArmDownSequence;
-import frc.robot.commands.Arm.ArmUpParallel;
+import frc.robot.commands.Arm.ArmCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
