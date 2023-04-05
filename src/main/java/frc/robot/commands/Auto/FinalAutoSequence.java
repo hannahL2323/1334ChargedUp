@@ -6,8 +6,8 @@ package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.SolForward;
-import frc.robot.commands.SolReverse;
+import frc.robot.commands.OpenClawCommand;
+import frc.robot.commands.CloseClawCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.Arm.ArmCommand;
 
@@ -26,7 +26,7 @@ public class FinalAutoSequence extends SequentialCommandGroup {
     // new TimedDrive(-0.2, 0, 5000));
 
 
-    addCommands(new ArmUpParallel(), new WaitCommand(0.5), new SolForward(), 
+    addCommands(new ArmUpParallel(), new WaitCommand(0.5), new OpenClawCommand(), 
     new AutoArm(0.1, 0), new TimedDrive(0.4, 0, 7250));
   }
 }

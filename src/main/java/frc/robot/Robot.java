@@ -7,25 +7,25 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.*;
-import frc.robot.commands.*;
-import frc.robot.commands.Arm.DefaultArmCommand;
-import frc.robot.commands.Auto.AutoDrive;
-import frc.robot.commands.Auto.FinalAutoSequence;
-// import frc.robot.commands.Auto.MiddleAutoSequence;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+// import frc.robot.commands.Auto.MiddleAutoSequence;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.DefaultWristCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.Arm.DefaultArmCommand;
+import frc.robot.commands.Auto.AutoCommand_ScoreAndLeaveZone;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -44,19 +44,18 @@ public class Robot extends TimedRobot {
   public static OI OI = new OI();
 
   // initializing commands
-  // public static ScoringSequence ScoringSequence = new ScoringSequence();
-  public static DriveCommand DriveCommand = new DriveCommand();
   CommandScheduler commandScheduler;
 
   private static Compressor compressor = new Compressor(11, PneumaticsModuleType.REVPH);
 
 
   // auto
-  Command m_autoCommand = new FinalAutoSequence();
-  // private static final String kDefaultAuto = "Default";
-  // private static final String kCustomAuto = "My Auto";
-  // private String m_autoSelected;
-  // private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  Command autoCommand = null;
+  
+   private static final String AUTO_SCORE_CONE_AND_EXIT_ZONE = "Score Cone and Exit";
+   private static final String AUTO_DO_NOTHING               = "Do Nothing";
+   
+   private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
   public static UsbCamera Camera;
 
@@ -70,14 +69,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    // m_chooser.addOption("My Auto", kCustomAuto);
-    // SmartDashboard.putData("Auto choices", m_chooser);
+     
+     // Put the auto patterns on the SmartDashboard
+     autoChooser.setDefaultOption(AUTO_SCORE_CONE_AND_EXIT_ZONE, AUTO_SCORE_CONE_AND_EXIT_ZONE);
+     autoChooser.addOption(AUTO_DO_NOTHING, AUTO_DO_NOTHING);
+     SmartDashboard.putData("AutoPattern", autoChooser);
 
     Camera = CameraServer.startAutomaticCapture();
     CameraServer.startAutomaticCapture();
     compressor.enableDigital();
 
+    DriveSubsystem.setDefaultCommand(new DriveCommand());
     ArmSubsystem.setDefaultCommand(new DefaultArmCommand());
     WristSubsystem.setDefaultCommand(new DefaultWristCommand());
   }
@@ -109,21 +111,35 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+      
     compressor.enableDigital();
 
-    SmartDashboard.putBoolean("auto enabled", true);
-
-    m_autoCommand = new FinalAutoSequence();
-
-    if (m_autoCommand != null) {
-      m_autoCommand.schedule();
+    // At the beginning of auto, get the selected pattern and schedule the auto
+    String selectedAuto = autoChooser.getSelected();
+    
+    System.out.println("Auto Selected : " + selectedAuto);
+    
+    switch (selectedAuto) {
+    
+    case AUTO_DO_NOTHING:
+        autoCommand = new InstantCommand();
+        break;
+        
+    case AUTO_SCORE_CONE_AND_EXIT_ZONE:
+        autoCommand = new AutoCommand_ScoreAndLeaveZone();
+        break;
+        
+    default:
+        // Default to score and exit zone
+        autoCommand = new AutoCommand_ScoreAndLeaveZone();
+        break;
     }
 
-    // m_autoSelected = m_chooser.getSelected();
-    // System.out.println("Auto selected: " + m_autoSelected);
+    autoCommand.schedule();
+   
+    SmartDashboard.putBoolean("auto enabled", true);
 
     startTime = System.currentTimeMillis();
-
   }
 
   /**
@@ -131,36 +147,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    // switch (m_autoSelected) {
-    //   case kCustomAuto:
-    //     // Put custom auto code here
-    //     commandScheduler.schedule(new SideAutoSequence());
-    //     break;
-    //   case kDefaultAuto:
-    //   default:
-    //     // Put default auto code here
-    //     commandScheduler.schedule(new SideAutoSequence());
-    //     break;
-    // }
-
-    // long currentTime = System.currentTimeMillis();
-
-    // if (startTime + 4500 > currentTime) {
-    //   DriveSubsystem.ArcadeDrive(0.4, 0);
-    // } else {
-    //   DriveSubsystem.ArcadeDrive(0, 0);
-    // }
- 
-
+    CommandScheduler.getInstance().run();
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+    
     compressor.enableDigital();
 
-    if (m_autoCommand != null) {
-      m_autoCommand.cancel();
+    if (autoCommand != null) {
+      autoCommand.cancel();
     }
   }
 
@@ -170,7 +167,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    DriveCommand.schedule();
   }
 
   /**
