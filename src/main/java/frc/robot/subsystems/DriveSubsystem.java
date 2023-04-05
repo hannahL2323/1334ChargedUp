@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 // import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -58,6 +59,11 @@ public class DriveSubsystem extends SubsystemBase {
     Right2.setInverted(true);
   }
 
+  @Override
+  public void periodic() {
+    SmartDashboard.putBoolean("drive torque", Robot.OI.getSpeedRamp());
+  }
+
   public double speedRamp(double speed) {
     if (speed > 0) {
       return 0.2 * (Math.pow(speed, 3)) + 0.8 * (Math.pow(speed, 2));
@@ -77,9 +83,11 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public void ArcadeDrive (double speed, double turn) {
-    speed = speedRamp(speed);
-    turn = speedRamp(turn);
-
+    if (Robot.OI.getSpeedRamp()) {
+      speed = speedRamp(speed);
+      turn = speedRamp(turn);
+    }
+    
     TankDrive((speed + turn), (speed - turn));
     SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
   }

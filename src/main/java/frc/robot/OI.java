@@ -92,6 +92,10 @@ public class OI {
     //     return Driver.getRawButton(5);
     // }
 
+    public boolean getSpeedRamp() {
+        return Driver.getBButton();
+    }
+
     public static double getSpeed() {
         if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {
             return (Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis());
