@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DefaultWristCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.Arm.DefaultArmCommand;
+import frc.robot.commands.Auto.AutoCommand_ScoreAndBalance;
 import frc.robot.commands.Auto.AutoCommand_ScoreAndLeaveZone;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
   
    private static final String AUTO_SCORE_CONE_AND_EXIT_ZONE = "Score Cone and Exit";
    private static final String AUTO_DO_NOTHING               = "Do Nothing";
+   private static final String AUTO_SCORE_AND_BALANCE = "Score and Balance";
    
    private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
@@ -73,6 +75,7 @@ public class Robot extends TimedRobot {
      // Put the auto patterns on the SmartDashboard
      autoChooser.setDefaultOption(AUTO_SCORE_CONE_AND_EXIT_ZONE, AUTO_SCORE_CONE_AND_EXIT_ZONE);
      autoChooser.addOption(AUTO_DO_NOTHING, AUTO_DO_NOTHING);
+     autoChooser.addOption(AUTO_SCORE_AND_BALANCE, AUTO_SCORE_AND_BALANCE);
      SmartDashboard.putData("AutoPattern", autoChooser);
 
     Camera = CameraServer.startAutomaticCapture();
@@ -127,6 +130,10 @@ public class Robot extends TimedRobot {
         
     case AUTO_SCORE_CONE_AND_EXIT_ZONE:
         autoCommand = new AutoCommand_ScoreAndLeaveZone();
+        break;
+
+    case AUTO_SCORE_AND_BALANCE:
+        autoCommand = new AutoCommand_ScoreAndBalance();
         break;
         
     default:

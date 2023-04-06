@@ -61,6 +61,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putData("gyro", ahrs);
+    SmartDashboard.putNumber("pitch", getPitch());
+    SmartDashboard.putNumber("roll", getRoll());
+    SmartDashboard.putNumber("yaw", getYaw());
+    
     SmartDashboard.putBoolean("drive torque", Robot.OI.getSpeedRamp());
   }
 
@@ -90,6 +95,18 @@ public class DriveSubsystem extends SubsystemBase {
     
     TankDrive((speed + turn), (speed - turn));
     SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
+  }
+
+  public double getPitch() {
+    return -ahrs.getRoll();
+  }
+
+  public double getRoll() {
+    return ahrs.getPitch();
+  }
+
+  public double getYaw() {
+    return ahrs.getYaw();
   }
 
   // public void autoBalance() {
