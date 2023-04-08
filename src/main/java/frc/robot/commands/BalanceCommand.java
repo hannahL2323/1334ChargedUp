@@ -58,7 +58,7 @@ public class BalanceCommand extends CommandBase {
     } else if (currentState == backup) {
       Robot.DriveSubsystem.ArcadeDrive(backupSpeed, 0);
 
-      if ((System.currentTimeMillis() - stateStart) > 1000) {
+      if ((System.currentTimeMillis() - stateStart) > 700) {
         currentState = balance;
       }
       return;

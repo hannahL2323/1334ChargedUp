@@ -65,7 +65,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("pitch", getPitch());
     SmartDashboard.putNumber("roll", getRoll());
     SmartDashboard.putNumber("yaw", getYaw());
-    
+
+    SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
     SmartDashboard.putBoolean("drive torque", Robot.OI.getSpeedRamp());
   }
 
@@ -94,7 +95,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
     
     TankDrive((speed + turn), (speed - turn));
-    SmartDashboard.putNumber("drive encoder", driveEncoder.getPosition());
   }
 
   public double getPitch() {

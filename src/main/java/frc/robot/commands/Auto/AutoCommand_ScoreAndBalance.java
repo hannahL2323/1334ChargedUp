@@ -6,6 +6,8 @@ package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.BalanceCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.OpenClawCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -15,6 +17,25 @@ public class AutoCommand_ScoreAndBalance extends SequentialCommandGroup {
   public AutoCommand_ScoreAndBalance() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
+    addCommands(new AutoArm(-0.2, -17)
+          .alongWith(new AutoWrist(-0.15, -25)));
+
+    // Wait 0.5 seconds
+    addCommands(new WaitCommand(0.5));
+    
+    // Open the Pincher
+    addCommands(new OpenClawCommand());
+    
+    // // Move the arm back to the top
+    // addCommands(new AutoArm(0.1, 0));
+
+    addCommands(new AutoWrist(0.15, -5));
+
+    addCommands(new AutoArm(0.2, 25));
+    
+    addCommands(new TimedDrive(0.4, 0, 5000));
+    
     addCommands(new BalanceCommand());
   }
 }

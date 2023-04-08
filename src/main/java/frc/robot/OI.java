@@ -70,8 +70,8 @@ public class OI {
 
        driverA.onTrue(new ScoringSequence());
 
-       operatorA.whileTrue(new ArmCommand(0.25));
-       operatorB.whileTrue(new ArmCommand(-0.35));
+       operatorA.whileTrue(new ArmCommand(0.35));
+       operatorB.whileTrue(new ArmCommand(-0.45));
 
         // operatorA.onTrue(new ArmDownSequence());
         // operatorB.onTrue(new ArmUpParallel());
@@ -79,8 +79,8 @@ public class OI {
        operatorX.whileTrue(new WristCommand(-0.15));
        operatorY.whileTrue(new WristCommand(0.15));
 
-       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.50));
-       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.30));
+       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.30));
+       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.40));
 
        driverLeftBumper.onTrue(new CloseClawCommand());
        driverRightBumper.onTrue(new OpenClawCommand());
@@ -93,7 +93,7 @@ public class OI {
     // }
 
     public boolean getSpeedRamp() {
-        return Driver.getBButton();
+        return !Driver.getBButton();
     }
 
     public static double getSpeed() {
