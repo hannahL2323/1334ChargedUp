@@ -18,23 +18,19 @@ public class AutoCommand_ScoreAndBalance extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    addCommands(new AutoArm(-0.2, -17)
-          .alongWith(new AutoWrist(-0.15, -25)));
+    addCommands(new AutoArm(-0.35, -17)
+          .alongWith(new AutoWrist(-0.25, -25)));
 
-    // Wait 0.5 seconds
-    addCommands(new WaitCommand(0.5));
-    
     // Open the Pincher
     addCommands(new OpenClawCommand());
     
-    // // Move the arm back to the top
-    // addCommands(new AutoArm(0.1, 0));
+    addCommands(new AutoWrist(0.25, -5));
 
-    addCommands(new AutoWrist(0.15, -5));
-
-    addCommands(new AutoArm(0.2, 25));
+    addCommands(new AutoArm(0.35, 25));
     
-    addCommands(new TimedDrive(0.4, 0, 5000));
+    addCommands(new TimedDrive(0.6, 0, 3500));
+
+    addCommands(new TimedDrive(-0.4, 0, 2000));
     
     addCommands(new BalanceCommand());
   }
