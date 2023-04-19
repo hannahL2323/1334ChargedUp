@@ -27,13 +27,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class OI {
      
-
+	
+	// TODO: use lower case letters for all variables: driverController, operatorController.
     public static XboxController Driver = new XboxController(0);
     public static XboxController Operator = new XboxController(1);
 
 
     // driver buttons
-    public JoystickButton driverA = new JoystickButton(Driver, 1);
+    // TODO: use the button values in the XboxController.
+    public JoystickButton driverA = new JoystickButton(Driver, XboxController.Button.kA.value);
     public JoystickButton driverB = new JoystickButton(Driver, 2);
     public JoystickButton driverX = new JoystickButton(Driver, 3);
     public JoystickButton driverY = new JoystickButton(Driver, 4);
@@ -105,6 +107,10 @@ public class OI {
     }
 
     public static double getTurn () {
+    	
+    	// FIXME: use the axis definitions provided in the Xbox controller.
+    	double turn = Driver.getLeftX(); 
+    	
         if (Math.abs(Driver.getRawAxis(0)) > 0.15) {
             return (Driver.getRawAxis(0));
         } else {

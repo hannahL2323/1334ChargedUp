@@ -6,18 +6,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
-import frc.robot.commands.Auto.TimedDrive;
 
 public class BalanceCommand extends CommandBase {
-  int climb = 0;
-  int backup = 1;
-  int pause = 2;
-  int balance = 3;
-  int currentState;
+
+  // TODO: Learn about enums
+  private enum Step { CLIMB, BACK_UP, BALANCE }
+
+  private Step currentStep = null;
+
   double backupSpeed;
-  long stateStart;
+  long stepStartTime;
 
   /** Creates a new BalanceCommand. */
   public BalanceCommand() {
@@ -32,9 +31,9 @@ public class BalanceCommand extends CommandBase {
     double pitch = Robot.DriveSubsystem.getPitch();
 
     if (Math.abs(pitch) > 4) {
-      currentState = climb;
+      currentStep = Step.CLIMB;
     } else {
-      currentState = balance;
+      currentStep = Step.BALANCE;
     }
 
   }
@@ -42,48 +41,65 @@ public class BalanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("current state", currentState);
+
+    SmartDashboard.putString("Balance Step", currentStep.toString());
 
     double pitch = Robot.DriveSubsystem.getPitch();
 
-    if (currentState == climb) {
+    switch (currentStep) {
+
+    case CLIMB:
+
+      // Climb up the ramp
       Robot.DriveSubsystem.ArcadeDrive(Math.signum(pitch) * 0.4, 0);
 
+      // When the ramp falls so that the angle is less than 4 deg,
+      // then back up a little bit.
       if (Math.abs(pitch) <= 4) {
-        currentState = backup;
-        stateStart = System.currentTimeMillis();
+        currentStep = Step.BACK_UP;
+        stepStartTime = System.currentTimeMillis();
         backupSpeed = Math.signum(pitch) * -0.4;
       }
       return;
-    } else if (currentState == backup) {
+
+    case BACK_UP:
+
+      // Back up for a short time.
       Robot.DriveSubsystem.ArcadeDrive(backupSpeed, 0);
 
-      if ((System.currentTimeMillis() - stateStart) > 700) {
-        currentState = balance;
+      // When the time is expired, start to balance.
+      if ((System.currentTimeMillis() - stepStartTime) > 700) {
+        currentStep = Step.BALANCE;
       }
       return;
-    } else if (currentState == balance) {
+
+    case BALANCE:
+      // Drive slowly to the balance point
       Robot.DriveSubsystem.ArcadeDrive(Math.signum(pitch) * 0.1, 0);
-    }    
 
+      return;
+    }
 
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    Robot.DriveSubsystem.ArcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double pitch = Robot.DriveSubsystem.getPitch();    
-    if (currentState == balance) {
+
+    double pitch = Robot.DriveSubsystem.getPitch();
+
+    if (currentStep == Step.BALANCE) {
       if (Math.abs(pitch) <= 2) {
-      return true;
+        return true;
       }
     }
     return false;
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    // Stop when balanced
+    Robot.DriveSubsystem.ArcadeDrive(0, 0);
   }
 }

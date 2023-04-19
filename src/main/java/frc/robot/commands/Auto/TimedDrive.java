@@ -9,14 +9,15 @@ import frc.robot.Robot;
 
 
 public class TimedDrive extends CommandBase {
+
   long startTime;
   long duration;
   double speed;
   double turn;
-  long currentTime;
 
   /** Creates a new TimedDrive. */
   public TimedDrive(double speed, double turn, long duration) {
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.DriveSubsystem);
 
@@ -29,28 +30,26 @@ public class TimedDrive extends CommandBase {
   @Override
   public void initialize() {
     startTime = System.currentTimeMillis();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Robot.DriveSubsystem.ArcadeDrive(speed, turn);
-    currentTime = System.currentTimeMillis();
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    if (System.currentTimeMillis() - startTime > duration) {
+      return true;
+    }
+    return false;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Robot.DriveSubsystem.driveReset();
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    if (startTime + duration <= currentTime) {
-      return true;
-    }
-    return false;
   }
 }
