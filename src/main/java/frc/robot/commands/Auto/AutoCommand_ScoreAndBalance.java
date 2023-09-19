@@ -23,7 +23,7 @@ public class AutoCommand_ScoreAndBalance extends SequentialCommandGroup {
 
     // Open the Pincher
     addCommands(new OpenClawCommand());
-    
+  
     addCommands(new AutoWrist(0.25, -5));
 
     addCommands(new AutoArm(0.35, 25));

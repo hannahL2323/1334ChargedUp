@@ -40,6 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
   RelativeEncoder driveEncoder;
   double rampValue;
  
+
   public DriveSubsystem() {
     rampValue = 0.2;
 
@@ -79,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
     return -1 * (0.2 * (Math.pow(speed, 3)) + 0.8 * (Math.pow(speed, 2)));
   }
 
-  public void TankDrive (double left, double right) {
+  public void tankDrive (double left, double right) {
     // Drive the left and right sides of the neos
     Left1.set(left);
     Left2.set(left);
@@ -88,13 +89,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
 
-  public void ArcadeDrive (double speed, double turn) {
+  public void arcadeDrive (double speed, double turn) {
     if (Robot.OI.getSpeedRamp()) {
       speed = speedRamp(speed);
       turn = speedRamp(turn);
     }
     
-    TankDrive((speed + turn), (speed - turn));
+    tankDrive((speed + turn), (speed - turn));
   }
 
   public double getPitch() {
@@ -137,7 +138,7 @@ public class DriveSubsystem extends SubsystemBase {
   // }
 
   public void driveReset(){
-    ArcadeDrive(0, 0);
+    arcadeDrive(0, 0);
     driveEncoder.setPosition(0);
   }
 

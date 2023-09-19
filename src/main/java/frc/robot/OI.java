@@ -68,24 +68,24 @@ public class OI {
         // driverA.onTrue(new ConeScoringSequence());
         // driverB.onTrue(new CubeScoringSequence());
 
-       driverA.onTrue(new ScoringSequence());
+    //    driverA.onTrue(new ScoringSequence());
 
-       operatorA.whileTrue(new ArmCommand(0.35));
-       operatorB.whileTrue(new ArmCommand(-0.45));
+       operatorA.whileTrue(new ArmCommand(0.05));
+       operatorB.whileTrue(new ArmCommand(-0.05));
 
         // operatorA.onTrue(new ArmDownSequence());
         // operatorB.onTrue(new ArmUpParallel());
 
-       operatorX.whileTrue(new WristCommand(-0.15));
-       operatorY.whileTrue(new WristCommand(0.15));
+       operatorX.whileTrue(new WristCommand(-0.05));
+       operatorY.whileTrue(new WristCommand(0.05));
 
-       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.30));
-       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.40));
+       operatorLeftBumper.whileTrue(new IntakeWheelCommand(0.1));
+       operatorRightBumper.whileTrue(new IntakeWheelCommand(-0.1));
 
-       driverLeftBumper.onTrue(new CloseClawCommand());
-       driverRightBumper.onTrue(new OpenClawCommand());
+    //    driverLeftBumper.onTrue(new CloseClawCommand());
+    //    driverRightBumper.onTrue(new OpenClawCommand());
 
-       driverX.whileTrue(new AutoBalance());
+    //    driverX.whileTrue(new AutoBalance());
     }
 
     // public static boolean getAutoBalance() {
@@ -96,21 +96,21 @@ public class OI {
         return !Driver.getBButton();
     }
 
-    public static double getSpeed() {
-        if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {
-            return (Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis());
-        } else {
-            return 0.0;
-        }
-    }
+    // public static double getSpeed() {
+    //     if (Math.abs(Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis()) > 0.15) {
+    //         return (Driver.getRightTriggerAxis() - Driver.getLeftTriggerAxis());
+    //     } else {
+    //         return 0.0;
+    //     }
+    // }
 
-    public static double getTurn () {
-        if (Math.abs(Driver.getRawAxis(0)) > 0.15) {
-            return (Driver.getRawAxis(0));
-        } else {
-            return 0.0;
-        }
-    }
+    // public static double getTurn () {
+    //     if (Math.abs(Driver.getRawAxis(0)) > 0.15) {
+    //         return (Driver.getRawAxis(0));
+    //     } else {
+    //         return 0.0;
+    //     }
+    // }
     
 
 }

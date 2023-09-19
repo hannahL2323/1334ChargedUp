@@ -47,7 +47,7 @@ public class BalanceCommand extends CommandBase {
     double pitch = Robot.DriveSubsystem.getPitch();
 
     if (currentState == climb) {
-      Robot.DriveSubsystem.ArcadeDrive(Math.signum(pitch) * 0.4, 0);
+      Robot.DriveSubsystem.arcadeDrive(Math.signum(pitch) * 0.4, 0);
 
       if (Math.abs(pitch) <= 4) {
         currentState = backup;
@@ -56,14 +56,14 @@ public class BalanceCommand extends CommandBase {
       }
       return;
     } else if (currentState == backup) {
-      Robot.DriveSubsystem.ArcadeDrive(backupSpeed, 0);
+      Robot.DriveSubsystem.arcadeDrive(backupSpeed, 0);
 
       if ((System.currentTimeMillis() - stateStart) > 700) {
         currentState = balance;
       }
       return;
     } else if (currentState == balance) {
-      Robot.DriveSubsystem.ArcadeDrive(Math.signum(pitch) * 0.1, 0);
+      Robot.DriveSubsystem.arcadeDrive(Math.signum(pitch) * 0.1, 0);
     }    
 
 
@@ -72,7 +72,7 @@ public class BalanceCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.DriveSubsystem.ArcadeDrive(0, 0);
+    Robot.DriveSubsystem.arcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.
